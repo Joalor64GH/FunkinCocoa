@@ -1,0 +1,11 @@
+healthbar_colors: [49, 176, 209]
+position: [0, 350]
+scale: 1
+no_antialiasing: false
+camera_position: [0, 0]
+image: characters/BOYFRIEND
+sing_duration: 4
+healthicon: bf
+flip_x: true
+animations: [{offsets: [-7, 0], loop: false, fps: 24, anim: idle, indices: [], name: BF idle dance}, {offsets: [-25, -50], loop: false, fps: 24, anim: singDOWN, indices: [], name: BF NOTE DOWN0}, {offsets: [-41, 27], loop: false, fps: 24, anim: singUP, indices: [], name: BF NOTE UP0}, {offsets: [-43, -7], loop: false, fps: 24, anim: singRIGHT, indices: [], name: BF NOTE RIGHT0}, {offsets: [8, 15], loop: false, fps: 24, anim: singLEFTmiss, indices: [], name: BF NOTE LEFT MISS}, {offsets: [-25, -19], loop: false, fps: 24, anim: singDOWNmiss, indices: [], name: BF NOTE DOWN MISS}, {offsets: [-29, 27], loop: false, fps: 24, anim: singUPmiss, indices: [], name: BF NOTE UP MISS}, {offsets: [-40, 21], loop: false, fps: 24, anim: singRIGHTmiss, indices: [], name: BF NOTE RIGHT MISS}, {offsets: [-3, 5], loop: false, fps: 24, anim: hey, indices: [], name: BF HEY}, {offsets: [15, 18], loop: false, fps: 24, anim: hurt, indices: [], name: BF hit}, {offsets: [-4, 0], loop: true, fps: 24, anim: scared, indices: [], name: BF idle shaking}, {offsets: [37, 11], loop: false, fps: 24, anim: firstDeath, indices: [], name: BF dies}, {offsets: [37, 5], loop: true, fps: 24, anim: deathLoop, indices: [], name: BF Dead Loop}, {offsets: [37, 69], loop: false, fps: 24, anim: deathConfirm, indices: [], name: BF Dead confirm}, {loop: false, offsets: [2, -9], anim: singLEFT, fps: 24, name: BF NOTE LEFT0, indices: []}, {loop: false, offsets: [-11, -14], anim: dodge, fps: 24, name: boyfriend dodge, indices: []}, {loop: false, offsets: [-44, -33], anim: preattack, fps: 24, name: bf pre attack, indices: []}, {loop: false, offsets: [290, 270], anim: attack, fps: 24, name: boyfriend attack, indices: []}]
+miss_duration: 2

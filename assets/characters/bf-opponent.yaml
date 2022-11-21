@@ -1,0 +1,11 @@
+healthbar_colors: [49, 176, 209]
+position: [0, 350]
+scale: 1
+no_antialiasing: false
+camera_position: [0, 0]
+image: characters/BOYFRIEND
+sing_duration: 4
+healthicon: bf
+flip_x: true
+animations: [{loop: false, offsets: [-7, 0], anim: idle, fps: 24, name: BF idle dance, indices: []}, {loop: false, offsets: [-25, -50], anim: singDOWN, fps: 24, name: BF NOTE DOWN0, indices: []}, {loop: false, offsets: [10, 34], anim: singUP, fps: 24, name: BF NOTE UP0, indices: []}, {loop: false, offsets: [37, -4], anim: singRIGHT, fps: 24, name: BF NOTE RIGHT0, indices: []}, {offsets: [-41, -6], loop: false, fps: 24, anim: singLEFT, indices: [], name: BF NOTE LEFT0}]
+miss_duration: 2

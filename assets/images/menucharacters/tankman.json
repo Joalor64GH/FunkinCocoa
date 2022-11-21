@@ -1,0 +1,15 @@
+{
+	"idle_anim": "Tankman Idle Dance",
+	"image": "Menu_Tankman",
+	"position": [
+		115,
+		90
+	],
+	"flipX": true,
+	"confirmPosition": [
+		-10,
+		-5
+	],
+	"scale": 0.582,
+	"confirm_anim": "TANKMAN UGH"
+}

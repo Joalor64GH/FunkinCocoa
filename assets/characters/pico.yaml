@@ -1,0 +1,11 @@
+healthbar_colors: [183, 216, 85]
+position: [0, 300]
+scale: 1
+no_antialiasing: false
+camera_position: [0, 0]
+image: characters/Pico_FNF_assetss
+sing_duration: 4
+healthicon: pico
+flip_x: true
+animations: [{loop: false, offsets: [0, 0], fps: 24, anim: idle, indices: [], name: Pico Idle Dance}, {loop: false, offsets: [54, -1], fps: 24, anim: singLEFT, indices: [], name: Pico Note Right0}, {loop: false, offsets: [-82, -10], fps: 24, anim: singRIGHT, indices: [], name: Pico NOTE LEFT0}, {loop: false, offsets: [-76, 25], fps: 24, anim: singRIGHTmiss, indices: [], name: Pico NOTE LEFT miss}, {loop: false, offsets: [52, 49], fps: 24, anim: singLEFTmiss, indices: [], name: Pico Note Right Miss}, {loop: false, offsets: [-29, 17], fps: 24, anim: singUP, indices: [], name: pico Up note0}, {loop: false, offsets: [172, -90], fps: 24, anim: singDOWN, indices: [], name: Pico Down Note0}, {loop: false, offsets: [172, -50], fps: 24, anim: singDOWNmiss, indices: [], name: Pico Down Note MISS}, {loop: false, offsets: [-17, 54], fps: 24, anim: singUPmiss, indices: [], name: pico Up note miss}]
+miss_duration: 2
