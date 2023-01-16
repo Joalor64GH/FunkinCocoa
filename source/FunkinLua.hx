@@ -1,41 +1,41 @@
 package;
 
 #if LUA_ALLOWED
+import llua.Convert;
 import llua.Lua;
 import llua.LuaL;
 import llua.State;
-import llua.Convert;
 #end
+import DialogueBoxPsych;
+import Type.ValueType;
 import animateatlas.AtlasFrameMaker;
-import flixel.FlxG;
-import flixel.tweens.FlxTween;
-import flixel.tweens.FlxEase;
-import flixel.text.FlxText;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.system.FlxSound;
-import flixel.util.FlxTimer;
-import flixel.FlxCamera;
-import flixel.util.FlxColor;
 import flixel.FlxBasic;
+import flixel.FlxCamera;
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.math.FlxMath;
+import flixel.system.FlxSound;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import openfl.display.BlendMode;
 import openfl.utils.Assets;
-import flixel.math.FlxMath;
-import flixel.util.FlxSave;
-import flixel.addons.transition.FlxTransitionableState;
+
+using StringTools;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
 #end
-import Type.ValueType;
-import DialogueBoxPsych;
 #if desktop
 import Discord;
 #end
 
-using StringTools;
 
 class FunkinLua
 {
@@ -55,7 +55,7 @@ class FunkinLua
 	public var hscript:FunkinScript;
 	#end
 
-	public function new(script:String)
+	public function new(script:String, ?scriptItself:String)
 	{
 		#if LUA_ALLOWED
 		lua = LuaL.newstate();
@@ -64,7 +64,7 @@ class FunkinLua
 
 		try
 		{
-			var result:Dynamic = LuaL.dofile(lua, script);
+			var result:Dynamic = scriptItself != null ? LuaL.dostring(lua, scriptItself) : LuaL.dofile(lua, script);
 			var resultStr:String = Lua.tostring(lua, result);
 			if (resultStr != null && result != 0)
 			{
@@ -197,6 +197,26 @@ class FunkinLua
 		#else
 		set('buildTarget', 'unknown');
 		#end
+
+		Lua_helper.add_callback(lua, "giveAchievement", function(name:String){
+			var me = this;
+			if(Achievements.isUnlocked(name)||!PlayState.instance.achievementArray.contains(me))
+			{
+				if(!PlayState.instance.achievementArray.contains(me)){
+					luaTrace("giveAchievement: This lua file is not a custom achievement lua.", false, false, FlxColor.RED);
+				}
+
+				return false;
+			}
+			@:privateAccess
+			if(PlayState.instance != null) {
+				Achievements.unlockAchievement(name, Achievements.createStat(PlayState.SONG.song, Date.now(), PlayState.storyDifficulty, PlayState.instance.accuracy, PlayState.instance.misses));
+				PlayState.instance.startAchievement(name);
+				FunkySettings.save();
+				return true;
+			}
+			else return false;
+		});
 
 		@:privateAccess
 		Lua_helper.add_callback(lua, "getRunningScripts", function()
@@ -2047,20 +2067,6 @@ class FunkinLua
 			PlayState.instance.healthBar.createFilledBar(left, right);
 			PlayState.instance.healthBar.updateBar();
 		});
-		Lua_helper.add_callback(lua, "setTimeBarColors", function(leftHex:String, rightHex:String)
-		{
-			var left:FlxColor = Std.parseInt(leftHex);
-			if (!leftHex.startsWith('0x'))
-				left = Std.parseInt('0xff' + leftHex);
-			var right:FlxColor = Std.parseInt(rightHex);
-			if (!rightHex.startsWith('0x'))
-				right = Std.parseInt('0xff' + rightHex);
-
-			@:privateAccess
-			PlayState.instance.timeBar.createFilledBar(right, left);
-			@:privateAccess
-			PlayState.instance.timeBar.updateBar();
-		});
 
 		Lua_helper.add_callback(lua, "setObjectCamera", function(obj:String, camera:String = '')
 		{
@@ -2615,7 +2621,7 @@ class FunkinLua
 		{
 			if (!PlayState.instance.modchartSaves.exists(name))
 			{
-				var save:FlxSave = new FlxSave();
+				var save:CocoaSave = new CocoaSave();
 				save.bind(name, folder);
 				PlayState.instance.modchartSaves.set(name, save);
 				return;

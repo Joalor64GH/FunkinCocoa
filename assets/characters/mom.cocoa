@@ -1,0 +1,42 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/Mom_Assets");
+	char.imageFile = "characters/Mom_Assets";
+
+	char.animation.addByPrefix("idle", "Mom Idle", 24, false);
+	char.animation.addByPrefix("singLEFT", "Mom Left Pose", 24, false);
+	char.animation.addByPrefix("singRIGHT", "Mom Pose Left", 24, false);
+	char.animation.addByPrefix("singDOWN", "MOM DOWN POSE", 24, false);
+	char.animation.addByPrefix("singUP", "Mom Up Pose", 24, false);
+
+	char.addOffset("idle", 0, 0);
+	char.addOffset("singLEFT", 250, -23);
+	char.addOffset("singRIGHT", 10, -60);
+	char.addOffset("singDOWN", 20, -160);
+	char.addOffset("singUP", 14, 71);
+
+	char.scale.set(1, 1);
+	char.updateHitbox();
+
+	char.positionArray = [0,0];
+	char.cameraPosition = [0,0];
+
+	char.healthIcon = "mom";
+	char.singDuration = 4;
+	char.missDuration = 1.3;
+
+	char.flipX = false;
+
+	char.healthColorArray = [216,85,142];
+
+	char.antialiasing = true;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkwLAoJCQkJMAoJCQldLAoJCQkiYW5pbSI6ICJpZGxlIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJNb20gSWRsZSIsCgkJCSJpbmRpY2VzIjogW10KCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkyNTAsCgkJCQktMjMKCQkJXSwKCQkJImFuaW0iOiAic2luZ0xFRlQiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIk1vbSBMZWZ0IFBvc2UiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMTAsCgkJCQktNjAKCQkJXSwKCQkJImFuaW0iOiAic2luZ1JJR0hUIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJNb20gUG9zZSBMZWZ0IiwKCQkJImluZGljZXMiOiBbXQoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTIwLAoJCQkJLTE2MAoJCQldLAoJCQkiYW5pbSI6ICJzaW5nRE9XTiIsCgkJCSJmcHMiOiAyNCwKCQkJIm5hbWUiOiAiTU9NIERPV04gUE9TRSIsCgkJCSJpbmRpY2VzIjogW10KCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkxNCwKCQkJCTcxCgkJCV0sCgkJCSJhbmltIjogInNpbmdVUCIsCgkJCSJmcHMiOiAyNCwKCQkJIm5hbWUiOiAiTW9tIFVwIFBvc2UiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfQoJXQp9";
+}
+
+function returnIcon()
+{
+	return "bW9t";
+}

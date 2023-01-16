@@ -4,8 +4,8 @@ import Achievements.AchievementStats;
 import Achievements.AttachedAchievement;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
-import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 

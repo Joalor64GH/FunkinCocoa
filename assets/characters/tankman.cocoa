@@ -1,0 +1,64 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/tankmanCaptian");
+	char.imageFile = "characters/tankmanCaptian";
+
+	char.animation.addByPrefix("idle", "Tankman Idle Dance instance", 24, false);
+	char.animation.addByPrefix("singRIGHT", "Tankman Note Left instance", 24, false);
+	char.animation.addByPrefix("singLEFT", "Tankman Right Note instance", 24, false);
+	char.animation.addByPrefix("singUP", "Tankman UP note instance", 24, false);
+	char.animation.addByPrefix("singDOWN", "Tankman DOWN note instance", 24, false);
+	char.animation.addByPrefix("singRIGHTmiss", "Tankman Note Leftm instance", 24, false);
+	char.animation.addByPrefix("singUPmiss", "Tankman UPm note instance", 24, false);
+	char.animation.addByPrefix("singDOWNmiss", "Tankman DOWNm note instance", 24, false);
+	char.animation.addByPrefix("singLEFTmiss", "Tankman Rightm Note instance", 24, false);
+	char.animation.addByPrefix("hey", "Tankman HEY instance", 24, false);
+	char.animation.addByPrefix("pretty-good", "PRETTY GOOD tankman instance", 24, false);
+	char.animation.addByPrefix("singUP-alt", "TANKMAN UGH instance", 24, false);
+	char.animation.addByPrefix("firstDeath", "Tank Dies", 24, false);
+	char.animation.addByPrefix("deathConfirm", "Tankman Dead Confirm", 24, false);
+	char.animation.addByPrefix("deathLoop", "Tankman Dead Loop", 24, true);
+	char.animation.addByPrefix("singUP-alt-miss", "TANKMAN UGHm instance", 24, false);
+
+	char.addOffset("idle", -5, 0);
+	char.addOffset("singRIGHT", -28, -33);
+	char.addOffset("singLEFT", 81, -13);
+	char.addOffset("singUP", 55, 47);
+	char.addOffset("singDOWN", 53, -106);
+	char.addOffset("singRIGHTmiss", -20, -1);
+	char.addOffset("singUPmiss", 55, 81);
+	char.addOffset("singDOWNmiss", 67, -58);
+	char.addOffset("singLEFTmiss", 79, 26);
+	char.addOffset("hey", -12, -7);
+	char.addOffset("pretty-good", -5, 15);
+	char.addOffset("singUP-alt", -20, -8);
+	char.addOffset("firstDeath", -10, 59);
+	char.addOffset("deathConfirm", -24, 10);
+	char.addOffset("deathLoop", -10, -10);
+	char.addOffset("singUP-alt-miss", -20, 6);
+
+	char.scale.set(1, 1);
+	char.updateHitbox();
+
+	char.positionArray = [0,240];
+	char.cameraPosition = [90,60];
+
+	char.healthIcon = "tankman";
+	char.singDuration = 4;
+	char.missDuration = 1.3;
+
+	char.flipX = true;
+
+	char.healthColorArray = [255,255,255];
+
+	char.antialiasing = true;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktNSwKCQkJCTAKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJpZGxlIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiVGFua21hbiBJZGxlIERhbmNlIGluc3RhbmNlIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS0yOCwKCQkJCS0zMwoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdSSUdIVCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIlRhbmttYW4gTm90ZSBMZWZ0IGluc3RhbmNlIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCTgxLAoJCQkJLTEzCgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ0xFRlQiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJUYW5rbWFuIFJpZ2h0IE5vdGUgaW5zdGFuY2UiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJNTUsCgkJCQk0NwoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdVUCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIlRhbmttYW4gVVAgbm90ZSBpbnN0YW5jZSIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQk1MywKCQkJCS0xMDYKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nRE9XTiIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIlRhbmttYW4gRE9XTiBub3RlIGluc3RhbmNlIgoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCS0yMCwKCQkJCS0xCgkJCV0sCgkJCSJhbmltIjogInNpbmdSSUdIVG1pc3MiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIlRhbmttYW4gTm90ZSBMZWZ0bSBpbnN0YW5jZSIsCgkJCSJpbmRpY2VzIjogW10KCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQk1NSwKCQkJCTgxCgkJCV0sCgkJCSJhbmltIjogInNpbmdVUG1pc3MiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIlRhbmttYW4gVVBtIG5vdGUgaW5zdGFuY2UiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJNjcsCgkJCQktNTgKCQkJXSwKCQkJImFuaW0iOiAic2luZ0RPV05taXNzIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJUYW5rbWFuIERPV05tIG5vdGUgaW5zdGFuY2UiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJNzksCgkJCQkyNgoJCQldLAoJCQkiYW5pbSI6ICJzaW5nTEVGVG1pc3MiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIlRhbmttYW4gUmlnaHRtIE5vdGUgaW5zdGFuY2UiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJLTEyLAoJCQkJLTcKCQkJXSwKCQkJImFuaW0iOiAiaGV5IiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJUYW5rbWFuIEhFWSBpbnN0YW5jZSIsCgkJCSJpbmRpY2VzIjogW10KCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktNSwKCQkJCTE1CgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAicHJldHR5LWdvb2QiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJQUkVUVFkgR09PRCB0YW5rbWFuIGluc3RhbmNlIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS0yMCwKCQkJCS04CgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1VQLWFsdCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIlRBTktNQU4gVUdIIGluc3RhbmNlIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS0xMCwKCQkJCTU5CgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAiZmlyc3REZWF0aCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIlRhbmsgRGllcyIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktMjQsCgkJCQkxMAoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImRlYXRoQ29uZmlybSIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIlRhbmttYW4gRGVhZCBDb25maXJtIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS0xMCwKCQkJCS0xMAoJCQldLAoJCQkibG9vcCI6IHRydWUsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAiZGVhdGhMb29wIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiVGFua21hbiBEZWFkIExvb3AiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTIwLAoJCQkJNgoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdVUC1hbHQtbWlzcyIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIlRBTktNQU4gVUdIbSBpbnN0YW5jZSIKCQl9CgldCn0";
+}
+
+function returnIcon()
+{
+	return "dGFua21hbg";
+}

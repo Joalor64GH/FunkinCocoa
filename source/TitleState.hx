@@ -60,14 +60,14 @@ class TitleState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		if (FlxG.save.data.weekCompleted != null)
+		if (CocoaSave.save.data.weekCompleted != null)
 		{
-			StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
+			StoryMenuState.weekCompleted = CocoaSave.save.data.weekCompleted;
 		}
 
 		FlxG.mouse.visible = false;
 
-		if (FlxG.save.data.flashing == null && !FlashingState.leftState)
+		if (CocoaSave.save.data.flashing == null && !FlashingState.leftState)
 		{
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;

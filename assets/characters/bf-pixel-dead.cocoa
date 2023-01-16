@@ -1,0 +1,38 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/bfPixelsDEAD");
+	char.imageFile = "characters/bfPixelsDEAD";
+
+	char.animation.addByPrefix("deathConfirm", "RETRY CONFIRM", 24, false);
+	char.animation.addByPrefix("deathLoop", "Retry Loop", 24, true);
+	char.animation.addByPrefix("firstDeath", "BF Dies pixel", 24, false);
+
+	char.addOffset("deathConfirm", -26, -12);
+	char.addOffset("deathLoop", -30, -12);
+	char.addOffset("firstDeath", 0, 0);
+
+	char.scale.set(6, 6);
+	char.updateHitbox();
+
+	char.positionArray = [0,350];
+	char.cameraPosition = [50,-60];
+
+	char.healthIcon = "bf-pixel";
+	char.singDuration = 4;
+	char.missDuration = 1.3;
+
+	char.flipX = true;
+
+	char.healthColorArray = [123,214,246];
+
+	char.antialiasing = false;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQktMjYsCgkJCQktMTIKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJkZWF0aENvbmZpcm0iLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJSRVRSWSBDT05GSVJNIgoJCX0sCgkJewoJCQkibG9vcCI6IHRydWUsCgkJCSJvZmZzZXRzIjogWwoJCQkJLTMwLAoJCQkJLTEyCgkJCV0sCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAiZGVhdGhMb29wIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiUmV0cnkgTG9vcCIKCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkwLAoJCQkJMAoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImZpcnN0RGVhdGgiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJCRiBEaWVzIHBpeGVsIgoJCX0KCV0KfQ";
+}
+
+function returnIcon()
+{
+	return "YmYtcGl4ZWw";
+}

@@ -3,12 +3,12 @@ package options;
 #if desktop
 import Discord.DiscordClient;
 #end
+import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.FlxG;
-import flixel.FlxSprite;
 
 using StringTools;
 
@@ -107,6 +107,7 @@ class BaseOptionsSubstate extends MusicBeatSubstate
 
 		changeSelection(false);
 		reloadCheckboxes();
+		updateText();
 	}
 
 	public function addOption(option:Option)
@@ -168,6 +169,7 @@ class BaseOptionsSubstate extends MusicBeatSubstate
 					curOption.setValue((curOption.getValue() == true) ? false : true);
 					curOption.change();
 					reloadCheckboxes();
+					updateText();
 					changeSelection(false);
 				}
 			}
@@ -392,6 +394,6 @@ class BaseOptionsSubstate extends MusicBeatSubstate
 	function reloadCheckboxes()
 	{
 		for (checkbox in checkboxGroup)
-			checkbox.daValue = (optionsArray[checkbox.ID].getValue() == true);
+			checkbox.checked = (optionsArray[checkbox.ID].getValue() == true);
 	}
 }

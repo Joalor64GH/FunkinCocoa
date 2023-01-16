@@ -1,20 +1,19 @@
 package;
 
 import flixel.FlxG;
-import openfl.utils.Assets;
-#if sys
-import sys.io.File;
-import sys.FileSystem;
-#end
 import haxe.crypto.*;
 import haxe.io.*;
+import openfl.utils.Assets;
 
-using StringTools;
 using CoolUtil;
+using StringTools;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 class CoolUtil
 {
-	// [Difficulty name, Chart file suffix]
 	public static var difficultyStuff:Array<String> = ['Easy', 'Normal', 'Hard',];
 
 	public static function difficultyString():String
@@ -60,6 +59,9 @@ class CoolUtil
 
 	public static function coolTruncater(number:Float, precision:Int):Float
 	{
+		if (precision < 1)
+			return Math.ffloor(number);
+		
 		var num = number;
 		num = num * Math.pow(10, precision);
 		num = Math.round(num) / Math.pow(10, precision);

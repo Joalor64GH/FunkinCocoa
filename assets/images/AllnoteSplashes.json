@@ -1,4 +1,95 @@
 {
-    "menuOffsets": [[-720, 55], [-720, 55], [-720, 55], [-720, 55]],
-    "framerate": 18
+	"animations": {
+		"yellow": {
+			"noteType": {
+				"noteType": "Must Press Note",
+				"noteData": -1,
+				"name": "yellow"
+			},
+			"offsets": [
+				89,
+				84
+			],
+			"fps": 18,
+			"prefix": "yellow",
+			"name": "yellow",
+			"indices": []
+		},
+		"gren": {
+			"offsets": [
+				82,
+				82
+			],
+			"noteType": {
+				"noteData": 2,
+				"noteType": ""
+			},
+			"fps": 18,
+			"prefix": "green",
+			"indices": [],
+			"name": "gren"
+		},
+		"pruple": {
+			"offsets": [
+				84,
+				82
+			],
+			"noteType": {
+				"noteData": 0,
+				"noteType": ""
+			},
+			"fps": 18,
+			"prefix": "purple",
+			"indices": [],
+			"name": "pruple"
+		},
+		"blue": {
+			"noteType": {
+				"noteType": "",
+				"noteData": 1
+			},
+			"offsets": [
+				83,
+				79
+			],
+			"fps": 18,
+			"prefix": "blue",
+			"name": "blue",
+			"indices": []
+		},
+		"hurtie": {
+			"offsets": [
+				191,
+				177
+			],
+			"noteType": {
+				"noteData": -1,
+				"noteType": "Hurt Note",
+				"name": "hurtie"
+			},
+			"fps": 18,
+			"prefix": "hurt",
+			"indices": [],
+			"name": "hurtie"
+		},
+		"redd": {
+			"offsets": [
+				84,
+				84
+			],
+			"noteType": {
+				"noteData": 3,
+				"noteType": ""
+			},
+			"fps": 18,
+			"prefix": "red",
+			"indices": [],
+			"name": "redd"
+		}
+	},
+	"affectedByShader": true,
+	"scale": [
+		0.825,
+		0.825
+	]
 }

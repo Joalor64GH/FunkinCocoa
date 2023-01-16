@@ -72,24 +72,24 @@ class Highscore
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songScores.set(song, score);
-		FlxG.save.data.songScores = songScores;
-		FlxG.save.flush();
+		CocoaSave.save.data.songScores = songScores;
+		CocoaSave.save.flush();
 	}
 
 	static function setWeekScore(week:String, score:Int):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		weekScores.set(week, score);
-		FlxG.save.data.weekScores = weekScores;
-		FlxG.save.flush();
+		CocoaSave.save.data.weekScores = weekScores;
+		CocoaSave.save.flush();
 	}
 
 	static function setRating(song:String, rating:Float):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songRating.set(song, rating);
-		FlxG.save.data.songRating = songRating;
-		FlxG.save.flush();
+		CocoaSave.save.data.songRating = songRating;
+		CocoaSave.save.flush();
 	}
 
 	public static function formatSong(song:String, ?diff:Int):String
@@ -139,17 +139,17 @@ class Highscore
 
 	public static function load():Void
 	{
-		if (FlxG.save.data.weekScores != null)
+		if (CocoaSave.save.data.weekScores != null)
 		{
-			weekScores = FlxG.save.data.weekScores;
+			weekScores = CocoaSave.save.data.weekScores;
 		}
-		if (FlxG.save.data.songScores != null)
+		if (CocoaSave.save.data.songScores != null)
 		{
-			songScores = FlxG.save.data.songScores;
+			songScores = CocoaSave.save.data.songScores;
 		}
-		if (FlxG.save.data.songRating != null)
+		if (CocoaSave.save.data.songRating != null)
 		{
-			songRating = FlxG.save.data.songRating;
+			songRating = CocoaSave.save.data.songRating;
 		}
 	}
 

@@ -2,12 +2,11 @@ package;
 
 import flixel.math.FlxMath;
 import flixel.system.FlxSound;
-
 import haxe.Json;
 
-// lmao using CocoaTools in CocoaTools
 using CocoaTools;
 using StringTools;
+// lmao using CocoaTools in CocoaTools
 
 class CocoaTools
 {

@@ -3,6 +3,7 @@ package;
 #if desktop
 import Discord.DiscordClient;
 #end
+import WeekData;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -16,7 +17,6 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
-import WeekData;
 
 using StringTools;
 
@@ -297,8 +297,9 @@ class StoryMenuState extends MusicBeatState
 		if (!weekIsLocked(curWeek))
 		{
 			// We can't use Dynamic Array .copy() because that crashes HTML5, here's a workaround.
+			// Nobody cares about HTML5 LMAO
 			var songArray:Array<String> = [];
-			var leWeek:Array<Dynamic> = WeekData.weeksLoaded.get(WeekData.weeksList[curWeek]).songs;
+			var leWeek:Array<Dynamic> = WeekData.weeksLoaded.get(WeekData.weeksList[curWeek]).songs.copy();
 			for (i in 0...leWeek.length)
 			{
 				songArray.push(leWeek[i][0]);
@@ -362,7 +363,6 @@ class StoryMenuState extends MusicBeatState
 				stopspamming = true;
 			}
 			
-
 			PlayState.storyPlaylist = songArray;
 			PlayState.storyPlayListOld = PlayState.storyPlaylist.copy();
 			PlayState.isStoryMode = true;
@@ -372,6 +372,7 @@ class StoryMenuState extends MusicBeatState
 			PlayState.storyDifficulty = curDifficulty;
 
 			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase(), curDifficulty);
+			PlayState.storyDifficulty = curDifficulty;
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
 			PlayState.campaignMisses = 0;

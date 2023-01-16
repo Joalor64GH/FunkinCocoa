@@ -1,0 +1,42 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getPackerAtlas("characters/spirit");
+	char.imageFile = "characters/spirit";
+
+	char.animation.addByPrefix("idle", "idle spirit_", 24, false);
+	char.animation.addByPrefix("singLEFT", "left_", 24, false);
+	char.animation.addByPrefix("singDOWN", "spirit down_", 24, false);
+	char.animation.addByPrefix("singRIGHT", "right_", 24, false);
+	char.animation.addByPrefix("singUP", "up_", 24, false);
+
+	char.addOffset("idle", -218, -280);
+	char.addOffset("singLEFT", -200, -280);
+	char.addOffset("singDOWN", 170, 110);
+	char.addOffset("singRIGHT", -220, -280);
+	char.addOffset("singUP", -220, -240);
+
+	char.scale.set(6, 6);
+	char.updateHitbox();
+
+	char.positionArray = [-150,100];
+	char.cameraPosition = [0,0];
+
+	char.healthIcon = "spirit";
+	char.singDuration = 4;
+	char.missDuration = 1.9;
+
+	char.flipX = false;
+
+	char.healthColorArray = [255,60,110];
+
+	char.antialiasing = false;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQktMjE4LAoJCQkJLTI4MAoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImlkbGUiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJpZGxlIHNwaXJpdF8iCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJLTIwMCwKCQkJCS0yODAKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nTEVGVCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogImxlZnRfIgoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTE3MCwKCQkJCTExMAoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdET1dOIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAic3Bpcml0IGRvd25fIgoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCS0yMjAsCgkJCQktMjgwCgkJCV0sCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1JJR0hUIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAicmlnaHRfIgoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCS0yMjAsCgkJCQktMjQwCgkJCV0sCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1VQIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAidXBfIgoJCX0KCV0KfQ";
+}
+
+function returnIcon()
+{
+	return "c3Bpcml0";
+}

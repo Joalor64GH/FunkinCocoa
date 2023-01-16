@@ -5,7 +5,9 @@ import flixel.FlxState;
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import sys.io.Process;
 
+using StringTools;
 #if CRASHES_ALLOWED
 import Discord.DiscordClient;
 import haxe.CallStack;
@@ -27,12 +29,73 @@ class Main extends Sprite
 
 	public static var FPS:FPS = new FPS(10, 3, 0xFFFFFF);
 	public static var ColorFilter:ColorBlindness;
+	public static var Memory(default, null):Int;
+
+	final macScript = "detail=`system_profiler SPHardwareDataType -detailLevel mini`
+	memory=`echo \"$detail\" | grep -m 1 \"Memory\" | awk -F': ' '{print $2}'`
+	echo $memory";
+
+	final linuxScript:String = "cat /proc/meminfo | grep MemTotal | awk -F ':' '{print $2}'";
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void
 	{
+		CocoaSave.save.bind("funkin", "Cocoa");
+		haxe.Log.trace = function(v, ?posInfos)
+		{
+			function formatOutput(v:Dynamic, infos:haxe.PosInfos):String 
+			{
+				var fileName;
+				fileName = infos.fileName.replace('source/', '');
+				var str = Std.string(v);
+				if (infos == null)
+					return str;
+				var pstr = fileName + ", Line " + infos.lineNumber;
+				if (infos.customParams != null)
+
+					for (v in infos.customParams)
+						str += ", " + Std.string(v);
+				return pstr + ": " + str;
+			}
+
+			Sys.println(formatOutput(v, posInfos));
+		};
+
 		Lib.current.addChild(new Main());
+	}
+
+	function getMemory():Void
+	{
+		var cmd:String = #if windows "wmic OS get TotalVisibleMemorySize /Value <nul" #elseif mac macScript #elseif linux linuxScript #else null; throw "Unsupported OS." #end;
+		var p:Process = new Process(cmd);
+		p.exitCode();
+		var mem:String = p.stdout.readAll().toString();
+		p.close();
+
+		#if linux
+		Memory = Std.parseInt(mem);
+		#elseif mac
+		Memory = Std.parseInt(mem) * 1024 * 1024;
+		#elseif windows
+		function fixMem(mem:String)
+		{
+			while (mem.indexOf(" ") != -1)
+				mem = mem.coolReplace(" ", "");
+			while (mem.indexOf("\t") != -1)
+				mem = mem.coolReplace("\t", "");
+
+			return mem = mem.coolReplace("TotalVisibleMemorySize=", "");
+		}
+
+		Memory = Std.parseInt(fixMem(mem));
+		#else
+		throw "Unsupported OS.";
+		#end
+
+		Memory = cast Math.fround(Memory / 1024);
+		Memory = cast Math.fround(Memory / 1024);
+		trace('RAM is ${Memory}GB!');
 	}
 
 	public function new()
@@ -73,13 +136,13 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
+		addChild(new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen));
 
 		#if !mobile
 		addChild(FPS);
 		if (FPS != null)
 		{
-			FPS.visible = FunkySettings.showFPS;
+			FPS.visible = FunkySettings.fpsStyle != 'Disabled';
 		}
 		#end
 
@@ -91,6 +154,8 @@ class Main extends Sprite
 		#if CRASHES_ALLOWED
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 		#end
+		
+		getMemory();
 	}
 
 	//sqirra-rng
@@ -110,13 +175,12 @@ class Main extends Sprite
 					Sys.println(i);
 			}
 
-		error += '\nUncaught Exception: ${exception.error}\nReport this to Github Repository:\n\nhttps://github.com/TheWorldMachinima/FunkinCocoa';
+		error += '\nUncaught Exception: ${exception.error}\nReport this to Github Repository:\nhttps://github.com/TheWorldMachinima/FunkinCocoa';
 
 		if (!FileSystem.exists('./logs/'))
 			FileSystem.createDirectory('./logs/');
 
 		File.saveContent('./logs/CocoaLog_$date.log', '$error\n');
-		Sys.print('$error was saved!');
 
 		Application.current.window.alert(error, "Game crashed!");
 		DiscordClient.shutdown();

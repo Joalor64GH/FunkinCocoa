@@ -1,8 +1,8 @@
 package;
 
+import flixel.math.FlxMath;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import flixel.math.FlxMath;
 
 #if openfl
 import openfl.system.System;
@@ -14,7 +14,6 @@ import openfl.system.System;
 **/
 #if !openfl_debug
 @:fileXml('tags="haxe,release"')
-@:noDebug
 #end
 class FPS extends TextField
 {
@@ -24,7 +23,6 @@ class FPS extends TextField
 	public var currentFPS(default, null):Int;
 
 	public var memoryMegas:Float;
-	public var memoryTotal:Float;
 
 	@:noCompletion var cacheCount:Int;
 	@:noCompletion var currentTime:Float;
@@ -37,10 +35,11 @@ class FPS extends TextField
 		this.x = x;
 		this.y = y;
 
+		embedFonts = true;
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("VCR OSD Mono", 15, color);
+		defaultTextFormat = new TextFormat(Paths.font("vetica.ttf"), 16, color);
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
@@ -48,7 +47,6 @@ class FPS extends TextField
 		cacheCount = 0;
 		currentTime = 0;
 		memoryMegas = 0;
-		memoryTotal = 0;
 		times = [];
 
 		#if flash
@@ -76,6 +74,9 @@ class FPS extends TextField
 		return size + intervalArray[data];
 	}
 
+	var oldStyle:String = FunkySettings.fpsStyle;
+	var oldMemory:Float = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 2));
+	var oldRender:Bool = FunkySettings.GPURender ? true : false;
 	// Event Handlers
 	@:noCompletion
 	#if !flash override #end function __enterFrame(deltaTime:Float):Void
@@ -91,23 +92,35 @@ class FPS extends TextField
 		var currentCount:Int = times.length;
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
 
-		if (currentCount != cacheCount)
+		if (currentCount != cacheCount 
+			|| FunkySettings.fpsStyle != oldStyle
+			|| memoryMegas != oldMemory
+			|| FunkySettings.GPURender != oldRender)
 		{
-			text = 'FPS: $currentFPS\n';
-
-			#if openfl
 			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 2));
-			if (memoryMegas > memoryTotal)
-				memoryTotal = memoryMegas;
-
-			text += 'RAM: ${getInterval(memoryMegas)} / ${getInterval(memoryTotal)}';
-			#end
 
 			textColor = 0xFFFFFFFF;
+
+			switch (FunkySettings.fpsStyle.toLowerCase())
+			{
+				case "both":
+					text = 'FPS: $currentFPS';
+					text += '\nRAM: ${getInterval(memoryMegas)} / ${Main.Memory}GB';
+				case "only memory":
+					text = 'RAM: ${getInterval(memoryMegas)} / ${Main.Memory}GB';
+				case "only fps":
+					text = 'FPS: $currentFPS';
+			}
+
+			if (FunkySettings.GPURender)
+				text += '\nVRAM: ${getInterval(Math.fround(FlxG.stage.context3D.totalGPUMemory / 1024 / 1024))}';
 
 			text += "\n";
 		}
 
 		cacheCount = currentCount;
+		oldStyle = FunkySettings.fpsStyle;
+		oldMemory = memoryMegas;
+		oldRender = FunkySettings.GPURender;
 	}
 }

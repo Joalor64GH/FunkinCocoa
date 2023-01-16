@@ -1,13 +1,15 @@
 package;
 
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxCamera;
-import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
+import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSave;
-import flixel.text.FlxText;
+import sys.FileSystem;
+import sys.io.File;
 
 using StringTools;
 
@@ -19,6 +21,33 @@ typedef AchievementStats =
 	public var accuracy:Null<Float>;
 	public var misses:Null<Int>;
 }
+
+typedef AchievementMeta = {
+	public var name:String;
+	public var desc:String;
+	public var save_tag:String;
+	public var hidden:Bool;
+
+	public var ?week_nomiss:String;
+	public var ?lua_code:String;
+	/**
+		If null or -1, gets pushed instead of getting inserting to specified index.
+	**/
+	public var ?index:Int;
+	/**
+		If not null, replaces achievements completely.
+		
+		Using global is dangerous and it should be used just once in a modpack.
+	**/
+	public var ?global:Array<Dynamic>;
+	/**
+	    If true, clears the vanilla achievements.
+		
+		Same goes for clearAchievements, it should be used just once in a modpack and global should be null aswell.
+	**/
+	public var ?clearAchievements:Bool; 
+}
+
 
 class Achievements
 {
@@ -95,6 +124,7 @@ class Achievements
 		],
 		["Debugger", "Beat the \"Test\" Stage from the Chart Editor.", 'debugger', true],
 	];
+	public static var copyAchievements = achievementsStuff.copy();
 
 	public static var achievementMap:Map<String, Bool> = new Map();
 	public static var achievementStats:Map<String, AchievementStats> = new Map();
@@ -110,6 +140,14 @@ class Achievements
 		return FunkySettings.save();
 	}
 
+	public static function exists(name:String) {
+		for (i in achievementsStuff) 
+			if (i[2] == name) 
+				return true;
+
+		return false;
+	}
+
 	public static function isUnlocked(name:String):Bool
 	{
 		return if (achievementMap.exists(name)) achievementMap.get(name) else false;
@@ -118,19 +156,107 @@ class Achievements
 	public static function getIndex(name:String):Int
 	{
 		for (i in achievementsStuff)
+		{
 			if (i[2] == name)
 				return achievementsStuff.indexOf(i);
+		}
 
 		return -1;
 	}
 
+	public static function loadModAchievements() {
+		achievementsStuff = copyAchievements.copy();
+
+		var paths:Array<String>= [Paths.mods('achievements/'),Paths.getPath('achievements/'),];
+		for(i in paths.copy()){
+			if(FileSystem.exists(i)){
+				for(l in FileSystem.readDirectory(i)){
+					if(l.endsWith('.json')){
+						var meta:AchievementMeta = cast haxe.Json.parse(File.getContent(i + l));
+						if(meta!=null){
+							if(meta.clearAchievements)
+								achievementsStuff=[];
+
+							if(meta.global==null||meta.global.length<1){
+								var achievement:Array<Dynamic> = [];
+								achievement.push(meta.name);
+								achievement.push(meta.desc);
+								achievement.push(meta.save_tag);
+								achievement.push(meta.hidden);
+								var index:Null<Int> = meta.index;
+								if(!achievementsStuff.contains(achievement)) {
+									if(index==null||index<0){
+										achievementsStuff.push(achievement.copy());
+									}
+									else {
+										achievementsStuff.insert(index,achievement);
+									}
+								}
+							}
+							else{
+								achievementsStuff = meta.global.copy();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public static function getModAchievements():Array<String> {
+		var paths:Array<String>= [Paths.mods('achievements/'),Paths.getPath('achievements/'),];
+
+		var luas:Array<String> = [];
+		for(i in paths){
+			if(FileSystem.exists(i)){
+				for(l in FileSystem.readDirectory(i)){
+					var pushedLuas = [];
+					var file = l.substr(0, l.length - 4);
+					//ignore lua files that does not have a json file
+					if (l.endsWith('.lua') && FileSystem.exists(i+file+'.json') && !pushedLuas.contains(l)) {
+						luas.push(i+l);
+						pushedLuas.push(l);
+					}
+				}
+			}
+		}
+		return luas.copy();
+	}
+
+	public static function getModAchievementMetas():Array<AchievementMeta> {
+		var paths:Array<String>= [Paths.mods('achievements/'),Paths.getPath('achievements/'),];
+
+		var metas = [];
+		for(i in paths.copy())
+			if(FileSystem.exists(i))
+				for(l in FileSystem.readDirectory(i))
+					if(l.endsWith('.json'))
+					{
+						try {
+							var meta:AchievementMeta = cast haxe.Json.parse(File.getContent(i + l));
+							metas.push(meta);
+						}
+						catch(e) {
+							trace(e.stack);
+						}
+					}
+
+		return metas.copy();
+	}
+
 	public static function getName(name:String)
 	{
+		if (!exists(name))
+			return null;
+
 		return achievementsStuff[getIndex(name)][0];
 	}
 
 	public static function getDesc(name:String)
 	{
+		if (!exists(name))
+			return null;
+
 		return achievementsStuff[getIndex(name)][1];
 	}
 
@@ -168,9 +294,10 @@ class Achievements
 
 	public static function loadAchievements():Bool
 	{
+		loadModAchievements();
 		loadStats();
 
-		var achieveSave:FlxSave = FunkySettings.bind('achievements');
+		var achieveSave:CocoaSave = FunkySettings.bind('achievements');
 
 		if (achieveSave.data.henchmenDeath != null)
 			henchmenDeath = achieveSave.data.henchmenDeath;
@@ -191,7 +318,7 @@ class Achievements
 
 	public static function loadStats():Bool
 	{
-		var achieveSave:FlxSave = FunkySettings.bind('achievements');
+		var achieveSave:CocoaSave = FunkySettings.bind('achievements');
 
 		if (achieveSave.data.achievementStats != null)
 		{

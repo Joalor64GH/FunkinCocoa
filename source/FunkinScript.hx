@@ -4,10 +4,10 @@ import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.group.FlxSpriteGroup;
+import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
 import flixel.system.FlxSound;
@@ -27,9 +27,12 @@ final class FunkinScript extends SScript
 {
 	override public function new(?scriptFile:String = "", ?preset:Bool = true, ?startExecute:Bool = true)
 	{
-		super(scriptFile, preset, startExecute);
+		super(scriptFile, preset, false);
 
 		traces = false;
+		privateAccess = true;
+		
+		execute();
 	}
 
 	override function preset():Void

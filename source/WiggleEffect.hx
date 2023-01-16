@@ -51,6 +51,7 @@ class WiggleEffect
 
 	function set_waveFrequency(v:Float):Float
 	{
+		shader.lmao.value = [1.1];
 		waveFrequency = v;
 		shader.uFrequency.value = [waveFrequency];
 		return v;
@@ -67,6 +68,7 @@ class WiggleEffect
 class WiggleShader extends FlxShader
 {
 	@:glFragmentSource('
+		uniform float lmao;
 		#pragma header
 		//uniform float tx, ty; // x,y waves phase
 		uniform float uTime;

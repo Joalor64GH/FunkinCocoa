@@ -1,0 +1,52 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/DADDY_DEAREST");
+	char.imageFile = "characters/DADDY_DEAREST";
+
+	char.animation.addByPrefix("singLEFT", "Dad Sing Note LEFT", 24, false);
+	char.animation.addByPrefix("singDOWN", "Dad Sing Note DOWN", 24, false);
+	char.animation.addByPrefix("singUP", "Dad Sing Note UP", 24, false);
+	char.animation.addByPrefix("singRIGHT", "Dad Sing Note RIGHT", 24, false);
+	char.animation.addByPrefix("idle", "Dad idle dance", 24, false);
+	char.animation.addByIndices("idle-loop", "Dad idle dance", [10,11,12,12], "", 24, true);
+	char.animation.addByIndices("singLEFT-loop", "Dad Sing Note LEFT", [12,13,14,15], "", 24, true);
+	char.animation.addByIndices("singRIGHT-loop", "Dad Sing Note RIGHT", [15,16,17,18], "", 24, true);
+	char.animation.addByIndices("singUP-loop", "Dad Sing Note UP", [56,57,58,59], "", 24, true);
+	char.animation.addByPrefix("hey", "WhatYouKnowAboutRollingDownInTheDeep", 24, false);
+
+	char.addOffset("singLEFT", -9, 10);
+	char.addOffset("singDOWN", 0, -30);
+	char.addOffset("singUP", -6, 50);
+	char.addOffset("singRIGHT", 0, 27);
+	char.addOffset("idle", 0, 0);
+	char.addOffset("idle-loop", 0, 0);
+	char.addOffset("singLEFT-loop", -9, 10);
+	char.addOffset("singRIGHT-loop", 0, 27);
+	char.addOffset("singUP-loop", -6, 50);
+	char.addOffset("hey", 140, -100);
+
+	char.scale.set(1, 1);
+	char.updateHitbox();
+
+	char.positionArray = [0,0];
+	char.cameraPosition = [0,0];
+
+	char.healthIcon = "dad";
+	char.singDuration = 6.1;
+	char.missDuration = 1.3;
+
+	char.flipX = false;
+
+	char.healthColorArray = [175,102,206];
+
+	char.antialiasing = true;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktOSwKCQkJCTEwCgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJhbmltIjogInNpbmdMRUZUIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJEYWQgU2luZyBOb3RlIExFRlQiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCS0zMAoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiYW5pbSI6ICJzaW5nRE9XTiIsCgkJCSJmcHMiOiAyNCwKCQkJIm5hbWUiOiAiRGFkIFNpbmcgTm90ZSBET1dOIiwKCQkJImluZGljZXMiOiBbXQoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS02LAoJCQkJNTAKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImFuaW0iOiAic2luZ1VQIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJEYWQgU2luZyBOb3RlIFVQIiwKCQkJImluZGljZXMiOiBbXQoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCTAsCgkJCQkyNwoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiYW5pbSI6ICJzaW5nUklHSFQiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIkRhZCBTaW5nIE5vdGUgUklHSFQiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCTAKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImFuaW0iOiAiaWRsZSIsCgkJCSJmcHMiOiAyNCwKCQkJIm5hbWUiOiAiRGFkIGlkbGUgZGFuY2UiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCTAKCQkJXSwKCQkJImxvb3AiOiB0cnVlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImlkbGUtbG9vcCIsCgkJCSJpbmRpY2VzIjogWwoJCQkJMTAsCgkJCQkxMSwKCQkJCTEyLAoJCQkJMTIKCQkJXSwKCQkJIm5hbWUiOiAiRGFkIGlkbGUgZGFuY2UiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTksCgkJCQkxMAoJCQldLAoJCQkibG9vcCI6IHRydWUsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ0xFRlQtbG9vcCIsCgkJCSJpbmRpY2VzIjogWwoJCQkJMTIsCgkJCQkxMywKCQkJCTE0LAoJCQkJMTUKCQkJXSwKCQkJIm5hbWUiOiAiRGFkIFNpbmcgTm90ZSBMRUZUIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCTAsCgkJCQkyNwoJCQldLAoJCQkibG9vcCI6IHRydWUsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1JJR0hULWxvb3AiLAoJCQkiaW5kaWNlcyI6IFsKCQkJCTE1LAoJCQkJMTYsCgkJCQkxNywKCQkJCTE4CgkJCV0sCgkJCSJuYW1lIjogIkRhZCBTaW5nIE5vdGUgUklHSFQiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTYsCgkJCQk1MAoJCQldLAoJCQkibG9vcCI6IHRydWUsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1VQLWxvb3AiLAoJCQkiaW5kaWNlcyI6IFsKCQkJCTU2LAoJCQkJNTcsCgkJCQk1OCwKCQkJCTU5CgkJCV0sCgkJCSJuYW1lIjogIkRhZCBTaW5nIE5vdGUgVVAiCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMTQwLAoJCQkJLTEwMAoJCQldLAoJCQkiYW5pbSI6ICJoZXkiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIldoYXRZb3VLbm93QWJvdXRSb2xsaW5nRG93bkluVGhlRGVlcCIsCgkJCSJpbmRpY2VzIjogW10KCQl9CgldCn0";
+}
+
+function returnIcon()
+{
+	return "ZGFk";
+}

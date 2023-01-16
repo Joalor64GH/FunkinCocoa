@@ -1,8 +1,8 @@
 package;
 
-import sys.io.File;
-import sys.FileSystem;
 import haxe.Json;
+import sys.FileSystem;
+import sys.io.File;
 
 using StringTools;
 

@@ -3,28 +3,29 @@ package editors;
 #if desktop
 import Discord.DiscordClient;
 #end
+import DialogueBoxPsych;
+import flash.net.FileFilter;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
+import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import openfl.net.FileReference;
+import flixel.util.FlxColor;
+import haxe.Json;
+import lime.system.Clipboard;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
-import flash.net.FileFilter;
-import haxe.Json;
-import DialogueBoxPsych;
-import lime.system.Clipboard;
+import openfl.net.FileReference;
+
+using StringTools;
 #if sys
 import sys.io.File;
 #end
 
-using StringTools;
 
 class DialogueEditorState extends MusicBeatState
 {

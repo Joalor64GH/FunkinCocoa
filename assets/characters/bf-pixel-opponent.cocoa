@@ -1,0 +1,50 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/bfPixel");
+	char.imageFile = "characters/bfPixel";
+
+	char.animation.addByPrefix("idle", "BF IDLE", 24, false);
+	char.animation.addByPrefix("singUPmiss", "BF UP MISS", 24, false);
+	char.animation.addByPrefix("singUP", "BF UP NOTE", 24, false);
+	char.animation.addByPrefix("singDOWN", "BF DOWN NOTE", 24, false);
+	char.animation.addByPrefix("singDOWNmiss", "BF DOWN MISS", 24, false);
+	char.animation.addByPrefix("singLEFT", "BF RIGHT NOTE", 24, false);
+	char.animation.addByPrefix("singRIGHTmiss", "BF LEFT MISS", 24, false);
+	char.animation.addByPrefix("singLEFTmiss", "BF RIGHT MISS", 24, false);
+	char.animation.addByPrefix("singRIGHT", "BF LEFT NOTE", 24, false);
+
+	char.addOffset("idle", 2, 0);
+	char.addOffset("singUPmiss", 0, 0);
+	char.addOffset("singUP", 0, 0);
+	char.addOffset("singDOWN", 0, 0);
+	char.addOffset("singDOWNmiss", 0, 0);
+	char.addOffset("singLEFT", 0, 0);
+	char.addOffset("singRIGHTmiss", 0, 0);
+	char.addOffset("singLEFTmiss", 0, 0);
+	char.addOffset("singRIGHT", 0, 0);
+
+	char.scale.set(6.8, 6.8);
+	char.updateHitbox();
+
+	char.positionArray = [80,480];
+	char.cameraPosition = [50,-160];
+
+	char.healthIcon = "bf-pixel";
+	char.singDuration = 4;
+	char.missDuration = 1.3;
+
+	char.flipX = true;
+
+	char.healthColorArray = [123,214,246];
+
+	char.antialiasing = false;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkyLAoJCQkJMAoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImlkbGUiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJCRiBJRExFIgoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTAsCgkJCQkwCgkJCV0sCgkJCSJhbmltIjogInNpbmdVUG1pc3MiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIkJGIFVQIE1JU1MiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCTAKCQkJXSwKCQkJImFuaW0iOiAic2luZ1VQIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJCRiBVUCBOT1RFIiwKCQkJImluZGljZXMiOiBbXQoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTAsCgkJCQkwCgkJCV0sCgkJCSJhbmltIjogInNpbmdET1dOIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJCRiBET1dOIE5PVEUiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCTAKCQkJXSwKCQkJImFuaW0iOiAic2luZ0RPV05taXNzIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJCRiBET1dOIE1JU1MiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCTAKCQkJXSwKCQkJImFuaW0iOiAic2luZ0xFRlQiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIkJGIFJJR0hUIE5PVEUiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCTAKCQkJXSwKCQkJImFuaW0iOiAic2luZ1JJR0hUbWlzcyIsCgkJCSJmcHMiOiAyNCwKCQkJIm5hbWUiOiAiQkYgTEVGVCBNSVNTIiwKCQkJImluZGljZXMiOiBbXQoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTAsCgkJCQkwCgkJCV0sCgkJCSJhbmltIjogInNpbmdMRUZUbWlzcyIsCgkJCSJmcHMiOiAyNCwKCQkJIm5hbWUiOiAiQkYgUklHSFQgTUlTUyIsCgkJCSJpbmRpY2VzIjogW10KCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkwLAoJCQkJMAoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdSSUdIVCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkJGIExFRlQgTk9URSIKCQl9CgldCn0";
+}
+
+function returnIcon()
+{
+	return "YmYtcGl4ZWw";
+}

@@ -3,12 +3,13 @@ package;
 import Section.SwagSection;
 import haxe.Exception;
 import haxe.Json;
-#if sys
-import sys.io.File;
-import sys.FileSystem;
-#end
 
 using StringTools;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
+
 
 typedef SwagSong =
 {
@@ -56,51 +57,91 @@ class Song
 		this.bpm = bpm;
 	}
 
-	public static function loadFromJson(jsonInput:String, ?difficulty:Int = 0):SwagSong
+	public static function availableSongs(jsonInput:String)
 	{
-		var rawJson = null;
+		var songs:Array<String> = [];
 
-		var formattedFolder:String = Paths.formatToSongPath(jsonInput);
-		var formattedSong:String = Paths.formatToSongPath(CoolUtil.difficultyStuff[difficulty]);
-
-		var moddyFile:String = Paths.modsJson(formattedFolder + '/' + formattedSong);
-
-		if (FileSystem.exists(moddyFile))
+		for (i in 0...CoolUtil.difficultyStuff.length)
 		{
-			rawJson = File.getContent(moddyFile).trim();
+			var song:SwagSong = try loadFromJson(jsonInput, i) catch (e) null;
+			if (song != null)
+			{
+				songs.push(CoolUtil.difficultyStuff[i]);
+			}
 		}
 
-		if (rawJson == null)
-			rawJson = File.getContent(Paths.json(formattedFolder + '/' + formattedSong)).trim();
+		return songs;
+	}	
 
-		while (!rawJson.endsWith("}"))
+	public static function loadFromJson(jsonInput:String, difficulty:Int = 0):SwagSong
+	{
+		var time:Float = Sys.time();
+		function loadFromJson(jsonInput:String, difficulty:Int)
 		{
-			rawJson = rawJson.substr(0, rawJson.length - 1);
-			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
-		}
+			var rawJson = null;
 
-		var songJson:SwagSong = parseJSONshit(rawJson);
+			var formattedFolder:String = Paths.formatToSongPath(jsonInput);
+			var formattedSong:String = Paths.formatToSongPath(CoolUtil.difficultyStuff[difficulty]);
 
-		var eventFile:String = Paths.modsJson('$formattedFolder/events');
+			var moddyFile:String = Paths.modsJson(formattedFolder + '/' + formattedSong);
 
-		if (!FileSystem.exists(eventFile))
-			eventFile = Paths.json('$formattedFolder/events');
+			if (FileSystem.exists(moddyFile))
+			{
+				rawJson = File.getContent(moddyFile).trim();
+			}
 
-		try 
-		{
-			songJson.events = parseEVENTshit(eventFile);
-			
-			if (songJson.events == null)
+			if (rawJson == null)
+				rawJson = File.getContent(Paths.json(formattedFolder + '/' + formattedSong)).trim();
+
+			while (!rawJson.endsWith("}"))
+			{
+				rawJson = rawJson.substr(0, rawJson.length - 1);
+				// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
+			}
+
+			var songJson:SwagSong = parseJSONshit(rawJson);
+
+			var eventFile:String = Paths.modsJson('$formattedFolder/events');
+
+			if (!FileSystem.exists(eventFile))
+				eventFile = Paths.json('$formattedFolder/events');
+
+			try 
+			{
+				songJson.events = parseEVENTshit(eventFile);
+				
+				if (songJson.events == null)
+					songJson.events = [];
+			}
+			catch (e:Exception)
+			{
 				songJson.events = [];
+			}
+
+			// trace(songJson.events);
+
+			return songJson;
 		}
-		catch (e:Exception)
+		var song:SwagSong = try loadFromJson(jsonInput, difficulty) catch (e) null;
+		var index:Int = 0;
+		if (song == null)
 		{
-			songJson.events = [];
+			for (i in 0...CoolUtil.difficultyStuff.length)
+			{
+				try 
+				{
+					song = loadFromJson(jsonInput, i);
+					index = i;
+				} 
+				catch (e) song = null;
+			}
+			if (song != null)
+			{
+				PlayState.storyDifficulty = index;
+			}
 		}
-
-		// trace(songJson.events);
-
-		return songJson;
+		//trace('${CoolUtil.coolSongFormatter(jsonInput)} took ${CoolUtil.coolTruncater(Sys.time() - time, 4)} seconds to parse');
+		return song;
 	}
 
 	public static function parseJSONshit(rawJson:String):SwagSong

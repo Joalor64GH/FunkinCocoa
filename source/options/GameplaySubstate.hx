@@ -12,6 +12,12 @@ class GameplaySubstate extends BaseOptionsSubstate
         ], 'ghostTapping');
         addOption(option);
 
+        var option:Option = new Option("Accuracy Decimals:", ["The higher the decimals, the more detailed the accuracy."], "decimals", "int");
+        option.decimals = 0;
+        option.minValue = 0;
+        option.maxValue = 4;
+        addOption(option);
+
         var option:Option = new Option('Downscroll', [
             'Your strumline will be shown at the bottom.',
             'Your strumline will be shown at the top.'

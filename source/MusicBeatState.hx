@@ -2,8 +2,8 @@ package;
 
 import Conductor.BPMChangeEvent;
 import flixel.FlxG;
-import flixel.addons.ui.FlxUIState;
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.ui.FlxUIState;
 import lime.app.Application;
 
 class MusicBeatState extends CustomState
@@ -147,7 +147,7 @@ class CustomState extends FlxUIState
 		// Custom made Trans out
 		if (!FlxTransitionableState.skipNextTransOut)
 		{
-			openSubState(new CustomFadeTransition(1, true));
+			openSubState(new CustomFadeTransition(.7, true));
 		}
 
 		FlxTransitionableState.skipNextTransOut = false;

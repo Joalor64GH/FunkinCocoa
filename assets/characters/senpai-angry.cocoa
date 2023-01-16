@@ -1,0 +1,42 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/senpai");
+	char.imageFile = "characters/senpai";
+
+	char.animation.addByPrefix("idle", "Angry Senpai Idle", 24, false);
+	char.animation.addByPrefix("singUP", "Angry Senpai UP NOTE", 24, false);
+	char.animation.addByPrefix("singLEFT", "Angry Senpai LEFT NOTE", 24, false);
+	char.animation.addByPrefix("singRIGHT", "Angry Senpai RIGHT NOTE", 24, false);
+	char.animation.addByPrefix("singDOWN", "Angry Senpai DOWN NOTE", 24, false);
+
+	char.addOffset("idle", 2, 0);
+	char.addOffset("singUP", 5, 37);
+	char.addOffset("singLEFT", 40, 0);
+	char.addOffset("singRIGHT", 0, 0);
+	char.addOffset("singDOWN", 14, 0);
+
+	char.scale.set(6, 6);
+	char.updateHitbox();
+
+	char.positionArray = [150,360];
+	char.cameraPosition = [-240,-330];
+
+	char.healthIcon = "senpai";
+	char.singDuration = 4;
+	char.missDuration = 2;
+
+	char.flipX = false;
+
+	char.healthColorArray = [255,170,111];
+
+	char.antialiasing = false;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkyLAoJCQkJMAoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImlkbGUiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJBbmdyeSBTZW5wYWkgSWRsZSIKCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQk1LAoJCQkJMzcKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nVVAiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJBbmdyeSBTZW5wYWkgVVAgTk9URSIKCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQk0MCwKCQkJCTAKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nTEVGVCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkFuZ3J5IFNlbnBhaSBMRUZUIE5PVEUiCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCTAKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nUklHSFQiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJBbmdyeSBTZW5wYWkgUklHSFQgTk9URSIKCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkxNCwKCQkJCTAKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nRE9XTiIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkFuZ3J5IFNlbnBhaSBET1dOIE5PVEUiCgkJfQoJXQp9";
+}
+
+function returnIcon()
+{
+	return "c2VucGFp";
+}

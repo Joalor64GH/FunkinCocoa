@@ -1,53 +1,38 @@
 package editors;
 
-import openfl.events.EventType;
-import flixel.FlxBasic;
 #if desktop
 import Discord.DiscordClient;
 #end
 import Conductor.BPMChangeEvent;
 import Section.SwagSection;
 import Song.SwagSong;
+import flash.geom.Rectangle;
+import flash.media.Sound;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.FlxObject;
-import flixel.input.keyboard.FlxKey;
+import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.ui.FlxInputText;
-import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
-import flixel.addons.ui.FlxUITooltip.FlxUITooltipStyle;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.math.FlxMath;
-import flixel.math.FlxPoint;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 import haxe.Json;
-import haxe.format.JsonParser;
-import lime.utils.Assets;
+import haxe.io.Bytes;
+import lime.media.AudioBuffer;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
-import openfl.media.Sound;
 import openfl.net.FileReference;
-import openfl.utils.ByteArray;
 import openfl.utils.Assets as OpenFlAssets;
-import lime.media.AudioBuffer;
-import haxe.io.Bytes;
-import flash.geom.Rectangle;
-import sys.io.File;
 import sys.FileSystem;
-import flash.media.Sound;
-import yaml.Yaml;
-import yaml.Parser;
+import sys.io.File;
 
 using StringTools;
 
@@ -78,10 +63,6 @@ class OldChartingState extends MusicBeatState
 		[
 			'Set GF Speed',
 			"Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"
-		],
-		[
-			'Blammed Lights',
-			"Value 1: 0 = Turn off, 1 = Blue, 2 = Green,\n3 = Pink, 4 = Red, 5 = Orange, Anything else = Random."
 		],
 		['Kill Henchmen', "For Mom's songs, don't use this please, i love them :("],
 		[
@@ -431,7 +412,7 @@ class OldChartingState extends MusicBeatState
 
 		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Load Autosave', function()
 		{
-			PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
+			PlayState.SONG = Song.parseJSONshit(CocoaSave.save.data.autosave);
 			MusicBeatState.resetState();
 		});
 
@@ -490,9 +471,9 @@ class OldChartingState extends MusicBeatState
 				for (file in FileSystem.readDirectory(directory))
 				{
 					var path = haxe.io.Path.join([directory, file]);
-					if (!FileSystem.isDirectory(path) && file.endsWith('.yaml'))
+					if (!FileSystem.isDirectory(path) && file.endsWith('.cocoa'))
 					{
-						var charToCheck:String = file.substr(0, file.length - 5);
+						var charToCheck:String = file.substr(0, file.length - 6);
 						if (!charToCheck.endsWith('-dead') && !tempMap.exists(charToCheck))
 						{
 							tempMap.set(charToCheck, true);
@@ -1213,15 +1194,15 @@ class OldChartingState extends MusicBeatState
 		check_vortex.callback = function()
 		{	
 			strumGroup.visible = check_vortex.checked;
-			FlxG.save.data.chart_vortex = check_vortex.checked;
-			FlxG.save.flush();
+			CocoaSave.save.data.chart_vortex = check_vortex.checked;
+			CocoaSave.save.flush();
 		};
 		check_vortex.callback();
 		
-		if (FlxG.save.data.chart_vortex == null) 
-			FlxG.save.data.chart_vortex = false;
+		if (CocoaSave.save.data.chart_vortex == null) 
+			CocoaSave.save.data.chart_vortex = false;
 
-		check_vortex.checked = FlxG.save.data.chart_vortex;
+		check_vortex.checked = CocoaSave.save.data.chart_vortex;
 
 		playSoundBf = new FlxUICheckBox(check_mute_inst.x, check_mute_vocals.y + 30, null, null, 'Play Sound (Boyfriend notes)', 100);
 		playSoundBf.checked = false;
@@ -2164,23 +2145,27 @@ class OldChartingState extends MusicBeatState
 		}
 	}
 
-	function loadHealthIconFromCharacter(char:String)
+	function loadHealthIconFromCharacter(char:String):String
 	{
-		var characterPath:String = 'characters/' + char + '.yaml';
-		var path:String = Paths.mods(characterPath);
-		if (!FileSystem.exists(path))
+		return try 
 		{
-			path = Paths.getPath(characterPath);
-		}
+			var characterPath:String = 'characters/' + char + '.cocoa';
+			var path:String = Paths.mods(characterPath);
+			if (!FileSystem.exists(path))
+			{
+				path = Paths.getPath(characterPath);
+			}
 
-		if (!FileSystem.exists(path))
-		{
-			path = Paths.getPath('characters/' + Character.DEFAULT_CHARACTER +
-				'.yaml'); // If a character couldn't be found, change him to BF just to prevent a crash
-		}
+			if (!FileSystem.exists(path))
+			{
+				path = Paths.getPath('characters/' + Character.DEFAULT_CHARACTER +
+					'.cocoa'); 
+			}
 
-		var json:Character.CharacterFile = cast Yaml.read(path, Parser.options().useObjects());
-		return json.healthicon;
+			var script:FunkinScript = new FunkinScript(path);
+			return CoolUtil.decode(script.call("returnIcon", []));
+		}
+		catch (e) "face";
 	}
 
 	function getEventName(names:Array<Dynamic>):String
@@ -2675,10 +2660,10 @@ class OldChartingState extends MusicBeatState
 
 	function autosaveSong():Void
 	{
-		FlxG.save.data.autosave = Json.stringify({
+		CocoaSave.save.data.autosave = Json.stringify({
 			"song": _song
 		});
-		FlxG.save.flush();
+		CocoaSave.save.flush();
 	}
 
 	function clearEvents()

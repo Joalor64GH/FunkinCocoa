@@ -1,5 +1,6 @@
 package;
 
+import CocoaSave.SaveCond;
 import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxSave;
 
@@ -32,15 +33,12 @@ class FunkySettings
 	public static var timeLeft:Bool = true;
 	public static var timeStyle:String = "Time Left";
 	public static var longTimeBar:Bool;
-	public static var showFPS:Bool = true;
 	public static var scoreTween:Bool = true;
 	public static var hideHud:Bool;
 	public static var bounce:Bool = true;
 	public static var sustainStyle:String = "Funkin";
 	public static var hideOpponent:Bool;
 	public static var splashOpacity:Float = .6;
-	public static var strumOpacity:Float = .8;
-	public static var splashSkin:String = "AllnoteSplashes";
 
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 
@@ -52,11 +50,14 @@ class FunkySettings
 	public static var mult:Float = 1;
 	public static var flashing:Bool = true;
 	public static var allowSwap:Bool = true;
+	public static var decimals:Int = 2;
 
 	// graphics
 	public static var lowGraphics:Bool;
 	public static var noAntialiasing:Bool;
 	public static var framerate:Int = 60;
+	public static var GPURender:Bool;
+	public static var fpsStyle:String = "Both";
 
 	public static var colorFilter:ColorBlindnessFilter = NONE;
 
@@ -66,12 +67,11 @@ class FunkySettings
 	// gets set everytime you change a setting!
 	public static function save():Bool
 	{
-		var save:FlxSave = new FlxSave();
+		var save:CocoaSave = new CocoaSave();
 		save.bind('settings', 'Cocoa');
 		save.data.timeLeft = timeLeft;
 		save.data.timeStyle = timeStyle;
 		save.data.longTimeBar = longTimeBar;
-		save.data.showFPS = showFPS;
 		save.data.scoreTween = scoreTween;
 		save.data.ghostTapping = ghostTapping;
 		save.data.downScroll = downScroll;
@@ -87,27 +87,23 @@ class FunkySettings
 		save.data.allowSwap = allowSwap;
 		save.data.bounce = bounce;
 		save.data.sustainStyle = sustainStyle;
+		save.data.fpsStyle = fpsStyle;
 		save.data.hideOpponent = hideOpponent;
+		save.data.GPURender = GPURender;
 		save.data.colorFilter = colorFilter;
 		save.data.splashOpacity = splashOpacity;
-		save.data.strumOpacity = strumOpacity;
-		save.data.splashSkin = splashSkin;
-
-		var achieveSave:FlxSave = bind('achievements');
+		save.data.decimals = decimals;
+		
+		var achieveSave:CocoaSave = bind('achievements');
 		achieveSave.data.achievementMap = Achievements.achievementMap;
 		achieveSave.data.achievementStats = Achievements.achievementStats;
-		achieveSave.flush();
 
-		saveControls();
-
-		var flush:Bool = save.flush() && achieveSave.flush();
-		// trace(flush);
-		return flush && FlxG.save.flush();
+		return achieveSave.flush().succeeded && save.flush().succeeded && achieveSave.flush().succeeded && saveControls();
 	}
 
 	public static function load():Bool
 	{
-		var save:FlxSave = new FlxSave();
+		var save:CocoaSave = new CocoaSave();
 		save.bind('settings', 'Cocoa');
 
 		GameplayOption.loadGameplayOptions();
@@ -121,9 +117,6 @@ class FunkySettings
 
 		if (save.data.longTimeBar != null)
 			longTimeBar = save.data.longTimeBar;
-
-		if (save.data.showFPS != null)
-			showFPS = save.data.showFPS;
 
 		if (save.data.scoreTween != null)
 			scoreTween = save.data.scoreTween;
@@ -183,6 +176,12 @@ class FunkySettings
 		if (save.data.sustainStyle != null)
 			sustainStyle = save.data.sustainStyle;
 
+		if (save.data.fpsStyle != null)
+			fpsStyle = save.data.fpsStyle;
+
+		if (save.data.GPURender != null)
+			GPURender = save.data.GPURender;
+
 		if (save.data.hideOpponent != null)
 			hideOpponent = save.data.hideOpponent;
 
@@ -192,24 +191,20 @@ class FunkySettings
 		if (save.data.splashOpacity != null)
 			splashOpacity = save.data.splashOpacity;
 
-		if (save.data.strumOpacity != null)
-			strumOpacity = save.data.strumOpacity;
-
-		if (save.data.splashSkin != null)
-			splashSkin = save.data.splashSkin;
-
+		if (save.data.decimals != null)
+			decimals = save.data.decimals;
+		 
 		/*if (!Achievements.loadAchievements())
 			trace('ERROR LOADING ACHIEVEMENTS'); */
 
 		FlxG.sound.volume = FlxG.save.data.volume;
 		FlxG.sound.muted = FlxG.save.data.mute;
-
 		return loadControls();
 	}
 
-	public static function bind(bind:String):FlxSave
+	public static function bind(bind:String):CocoaSave
 	{
-		var save:FlxSave = new FlxSave();
+		var save:CocoaSave = new CocoaSave();
 		save.bind(bind, 'Cocoa');
 
 		return save;
@@ -217,7 +212,7 @@ class FunkySettings
 
 	public static function loadControls():Bool
 	{
-		var save:FlxSave = new FlxSave();
+		var save:CocoaSave = new CocoaSave();
 		save.bind('controls', 'Cocoa');
 
 		if (save.data.controls != null)
@@ -225,12 +220,12 @@ class FunkySettings
 
 		PlayerSettings.player1.controls.loadKeybinds();
 
-		return save.flush();
+		return save.flush().succeeded;
 	}
 
 	public static function saveControls():Bool
 	{
-		var control:FlxSave = new FlxSave();
+		var control:CocoaSave = new CocoaSave();
 		control.bind('controls', 'Cocoa');
 
 		if (control.data != null)
@@ -238,6 +233,6 @@ class FunkySettings
 
 		PlayerSettings.player1.controls.loadKeybinds();
 
-		return control.flush();
+		return control.flush().succeeded;
 	}
 }

@@ -50,7 +50,7 @@ class PauseSubState extends MusicBeatSubstate
 		if (CoolUtil.difficultyStuff.length < 2)
 			menuItemsOG.remove('Change Difficulty');
 
-		difficultyChoices = CoolUtil.difficultyStuff.copy();
+		difficultyChoices = Song.availableSongs(PlayState.SONG.song).copy();
 		difficultyChoices.push('BACK');
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
@@ -223,7 +223,6 @@ class PauseSubState extends MusicBeatSubstate
 						map.set(WeekData.getWeekFileName(), {song: index[intIndex], index: intIndex});
 						weekSave.data.week = map.copy();
 						weekSave.flush();
-						trace(map);
 						MusicBeatState.switchState(new StoryMenuState(true));
 					}
 					else

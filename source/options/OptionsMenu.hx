@@ -4,9 +4,9 @@ import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
-import flixel.util.FlxColor;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
+import flixel.util.FlxColor;
 import sys.FileSystem;
 import sys.io.File;
 
@@ -17,30 +17,19 @@ class OptionsMenu extends MusicBeatState
 	var selector:FlxText;
 	var curSelected:Int = 0;
 	var text:FlxText;
-	var controlsStrings:Array<String>;
+	var controlsStrings:Array<String> = [
+		'Controls',
+		'Gameplay',
+		'Visuals and UI',
+		'Graphics',
+		'Note',
+	];
 	var grpControls:FlxTypedGroup<Alphabet>;
 	var selectorLeft:Alphabet;
 	var selectorRight:Alphabet;
 
 	override function create()
 	{
-		var strings:Array<String> = [];
-		var modPath:String = Paths.mods('options/optionsList.txt');
-		if (!FileSystem.exists(modPath))
-			modPath = Paths.getPath('options/optionsList.txt');
-		if (!FileSystem.exists(modPath))
-			modPath = 'optionsList.txt';
-		if (!FileSystem.exists(modPath))
-			strings = [
-				'Controls',
-				'Gameplay',
-				'Visuals and UI',
-				'Graphics',
-				'Note',
-			];
-
-		controlsStrings = strings.length > 0 ? strings : CoolUtil.coolStringFile(File.getContent(modPath), '??');
-
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		menuBG.color = 0xFFea71fd;
 		menuBG.updateHitbox();
@@ -105,8 +94,8 @@ class OptionsMenu extends MusicBeatState
 						openSubState(new GameplaySubstate());
 					case 'Visuals and UI':
 						openSubState(new UISubstate());
-					default:
-						openSubState(new TypedOptionsSubstate(modPath));
+					case 'Graphics':
+						openSubState(new GraphicsSubState());
 				}
 			}
 		}

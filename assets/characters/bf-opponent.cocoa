@@ -1,0 +1,42 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/BOYFRIEND");
+	char.imageFile = "characters/BOYFRIEND";
+
+	char.animation.addByPrefix("idle", "BF idle dance", 24, false);
+	char.animation.addByPrefix("singDOWN", "BF NOTE DOWN0", 24, false);
+	char.animation.addByPrefix("singUP", "BF NOTE UP0", 24, false);
+	char.animation.addByPrefix("singRIGHT", "BF NOTE RIGHT0", 24, false);
+	char.animation.addByPrefix("singLEFT", "BF NOTE LEFT0", 24, false);
+
+	char.addOffset("idle", -7, 0);
+	char.addOffset("singDOWN", -25, -50);
+	char.addOffset("singUP", 10, 34);
+	char.addOffset("singRIGHT", 37, -4);
+	char.addOffset("singLEFT", -41, -6);
+
+	char.scale.set(1, 1);
+	char.updateHitbox();
+
+	char.positionArray = [0,350];
+	char.cameraPosition = [0,0];
+
+	char.healthIcon = "bf";
+	char.singDuration = 4;
+	char.missDuration = 2;
+
+	char.flipX = true;
+
+	char.healthColorArray = [49,176,209];
+
+	char.antialiasing = true;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktNywKCQkJCTAKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJpZGxlIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiQkYgaWRsZSBkYW5jZSIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktMjUsCgkJCQktNTAKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nRE9XTiIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkJGIE5PVEUgRE9XTjAiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJMTAsCgkJCQkzNAoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdVUCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkJGIE5PVEUgVVAwIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCTM3LAoJCQkJLTQKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nUklHSFQiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJCRiBOT1RFIFJJR0hUMCIKCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQktNDEsCgkJCQktNgoJCQldLAoJCQkiYW5pbSI6ICJzaW5nTEVGVCIsCgkJCSJmcHMiOiAyNCwKCQkJIm5hbWUiOiAiQkYgTk9URSBMRUZUMCIsCgkJCSJpbmRpY2VzIjogW10KCQl9CgldCn0";
+}
+
+function returnIcon()
+{
+	return "YmY";
+}

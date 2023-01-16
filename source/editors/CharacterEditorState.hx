@@ -3,17 +3,14 @@ package editors;
 #if desktop
 import Discord.DiscordClient;
 #end
+import Character;
+import flash.net.FileFilter;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.FlxCamera;
-import flixel.input.keyboard.FlxKey;
 import flixel.addons.display.FlxGridOverlay;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.graphics.FlxGraphic;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
@@ -23,18 +20,19 @@ import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.addons.ui.FlxUITooltip.FlxUITooltipStyle;
+import flixel.animation.FlxAnimation;
+import flixel.graphics.FlxGraphic;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.keyboard.FlxKey;
+import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
+import flixel.text.FlxText;
 import flixel.ui.FlxSpriteButton;
-import openfl.net.FileReference;
-import flash.net.FileFilter;
+import flixel.util.FlxColor;
+import haxe.Json;
+import lime.system.Clipboard;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
-import yaml.Yaml;
-import yaml.Renderer;
-import haxe.Json;
-import Character;
-import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
-import lime.system.Clipboard;
-import flixel.animation.FlxAnimation;
+import openfl.net.FileReference;
 import sys.FileSystem;
 import sys.io.File;
 
@@ -445,13 +443,10 @@ class CharacterEditorState extends MusicBeatState
 			saveCharacter();
 		});
 
-		var loadCharacterButton:FlxUIButton = new FlxUIButton(reloadImage.x, saveCharacterButton.y + 75, "Load Character\nFrom Json", function()
+		var loadCharacterButton:FlxUIButton = new FlxUIButton(reloadImage.x, saveCharacterButton.y + 75, "Load Json", function()
 		{
 			loadCharacter();
 		});
-		loadCharacterButton.scale.set(1.25, 1.25);
-		loadCharacterButton.updateHitbox();
-		loadCharacterButton.label.updateHitbox();
 
 		healthColorStepperR = new FlxUINumericStepper(singDurationStepper.x, saveCharacterButton.y, 20, char.healthColorArray[0], 0, 255, 0);
 		healthColorStepperG = new FlxUINumericStepper(singDurationStepper.x + 65, saveCharacterButton.y, 20, char.healthColorArray[1], 0, 255, 0);
@@ -829,6 +824,9 @@ class CharacterEditorState extends MusicBeatState
 			if (jsonLoaded.__path != null)
 				fullPath = cast Json.parse(File.getContent(jsonLoaded.__path));
 
+			var script:String = Character.JsonToCharacter(fullPath);
+			if (script != null)
+				File.saveContent(jsonLoaded.__path.substring(0, jsonLoaded.__path.length - 4) + "cocoa", script);
 			//trace(__file.name);
 			daAnim = __file.name.substring(0, __file.name.length - 5);
 			loadChar(!daAnim.startsWith('bf'), true);
@@ -1045,9 +1043,9 @@ class CharacterEditorState extends MusicBeatState
 				for (file in FileSystem.readDirectory(directory))
 				{
 					var path = haxe.io.Path.join([directory, file]);
-					if (!sys.FileSystem.isDirectory(path) && (file.endsWith('.yaml')))
+					if (!sys.FileSystem.isDirectory(path) && (file.endsWith('.cocoa')))
 					{
-						var charToCheck:String = file.substr(0, file.length - 5);
+						var charToCheck:String = file.substr(0, file.length - 6);
 						if (!charsLoaded.exists(charToCheck))
 						{
 							characterList.push(charToCheck);
@@ -1302,14 +1300,14 @@ class CharacterEditorState extends MusicBeatState
 			"healthbar_colors": char.healthColorArray
 		};
 
-		var data:String = Yaml.render(json, Renderer.options().setFlowLevel(1));
+		var data:String = Character.JsonToCharacter(json);
 		if (data.length > 0)
 		{
 			_file = new FileReference();
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data, daAnim + ".yaml");
+			_file.save(data, daAnim + ".cocoa");
 		}
 	}
 

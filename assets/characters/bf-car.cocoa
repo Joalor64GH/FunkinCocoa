@@ -1,0 +1,60 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/bfCar");
+	char.imageFile = "characters/bfCar";
+
+	char.animation.addByPrefix("idle", "BF idle dance", 24, false);
+	char.animation.addByPrefix("singLEFT", "BF NOTE LEFT0", 24, false);
+	char.animation.addByPrefix("singDOWN", "BF NOTE DOWN0", 24, false);
+	char.animation.addByPrefix("singUP", "BF NOTE UP0", 24, false);
+	char.animation.addByPrefix("singRIGHT", "BF NOTE RIGHT0", 24, false);
+	char.animation.addByPrefix("singLEFTmiss", "BF NOTE LEFT MISS", 24, false);
+	char.animation.addByPrefix("singDOWNmiss", "BF NOTE DOWN MISS", 24, false);
+	char.animation.addByPrefix("singUPmiss", "BF NOTE UP MISS", 24, false);
+	char.animation.addByPrefix("singRIGHTmiss", "BF NOTE RIGHT MISS", 24, false);
+	char.animation.addByIndices("idle-loop", "BF idle dance", [10,11,12,13], "", 24, true);
+	char.animation.addByIndices("singLEFT-loop", "BF NOTE LEFT0", [12,13,14,15], "", 24, true);
+	char.animation.addByIndices("singRIGHT-loop", "BF NOTE RIGHT0", [58,59,60,61], "", 24, true);
+	char.animation.addByIndices("singUP-loop", "BF NOTE UP0", [11,12,13,14], "", 24, true);
+	char.animation.addByIndices("singDOWN-loop", "BF NOTE DOWN0", [26,27,28,29], "", 24, true);
+
+	char.addOffset("idle", 0, 0);
+	char.addOffset("singLEFT", 12, -6);
+	char.addOffset("singDOWN", -10, -50);
+	char.addOffset("singUP", -29, 27);
+	char.addOffset("singRIGHT", -38, -7);
+	char.addOffset("singLEFTmiss", 12, 24);
+	char.addOffset("singDOWNmiss", -11, -19);
+	char.addOffset("singUPmiss", -29, 27);
+	char.addOffset("singRIGHTmiss", -30, 21);
+	char.addOffset("idle-loop", 0, 0);
+	char.addOffset("singLEFT-loop", 12, -6);
+	char.addOffset("singRIGHT-loop", -38, -7);
+	char.addOffset("singUP-loop", -29, 27);
+	char.addOffset("singDOWN-loop", -10, -50);
+
+	char.scale.set(1, 1);
+	char.updateHitbox();
+
+	char.positionArray = [0,350];
+	char.cameraPosition = [0,0];
+
+	char.healthIcon = "bf";
+	char.singDuration = 4;
+	char.missDuration = 1.3;
+
+	char.flipX = true;
+
+	char.healthColorArray = [49,176,209];
+
+	char.antialiasing = true;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQkwLAoJCQkJMAoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImlkbGUiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJCRiBpZGxlIGRhbmNlIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCTEyLAoJCQkJLTYKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nTEVGVCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkJGIE5PVEUgTEVGVDAiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTEwLAoJCQkJLTUwCgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ0RPV04iLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJCRiBOT1RFIERPV04wIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS0yOSwKCQkJCTI3CgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1VQIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiQkYgTk9URSBVUDAiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTM4LAoJCQkJLTcKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nUklHSFQiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJCRiBOT1RFIFJJR0hUMCIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQkxMiwKCQkJCTI0CgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ0xFRlRtaXNzIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiQkYgTk9URSBMRUZUIE1JU1MiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTExLAoJCQkJLTE5CgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ0RPV05taXNzIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiQkYgTk9URSBET1dOIE1JU1MiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTI5LAoJCQkJMjcKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nVVBtaXNzIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiQkYgTk9URSBVUCBNSVNTIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS0zMCwKCQkJCTIxCgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1JJR0hUbWlzcyIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkJGIE5PVEUgUklHSFQgTUlTUyIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQkwLAoJCQkJMAoJCQldLAoJCQkibG9vcCI6IHRydWUsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAiaWRsZS1sb29wIiwKCQkJImluZGljZXMiOiBbCgkJCQkxMCwKCQkJCTExLAoJCQkJMTIsCgkJCQkxMwoJCQldLAoJCQkibmFtZSI6ICJCRiBpZGxlIGRhbmNlIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCTEyLAoJCQkJLTYKCQkJXSwKCQkJImxvb3AiOiB0cnVlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdMRUZULWxvb3AiLAoJCQkiaW5kaWNlcyI6IFsKCQkJCTEyLAoJCQkJMTMsCgkJCQkxNCwKCQkJCTE1CgkJCV0sCgkJCSJuYW1lIjogIkJGIE5PVEUgTEVGVDAiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTM4LAoJCQkJLTcKCQkJXSwKCQkJImxvb3AiOiB0cnVlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdSSUdIVC1sb29wIiwKCQkJImluZGljZXMiOiBbCgkJCQk1OCwKCQkJCTU5LAoJCQkJNjAsCgkJCQk2MQoJCQldLAoJCQkibmFtZSI6ICJCRiBOT1RFIFJJR0hUMCIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktMjksCgkJCQkyNwoJCQldLAoJCQkibG9vcCI6IHRydWUsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1VQLWxvb3AiLAoJCQkiaW5kaWNlcyI6IFsKCQkJCTExLAoJCQkJMTIsCgkJCQkxMywKCQkJCTE0CgkJCV0sCgkJCSJuYW1lIjogIkJGIE5PVEUgVVAwIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS0xMCwKCQkJCS01MAoJCQldLAoJCQkibG9vcCI6IHRydWUsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ0RPV04tbG9vcCIsCgkJCSJpbmRpY2VzIjogWwoJCQkJMjYsCgkJCQkyNywKCQkJCTI4LAoJCQkJMjkKCQkJXSwKCQkJIm5hbWUiOiAiQkYgTk9URSBET1dOMCIKCQl9CgldCn0";
+}
+
+function returnIcon()
+{
+	return "YmY";
+}

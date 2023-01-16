@@ -1,0 +1,46 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/spooky_kids_assets");
+	char.imageFile = "characters/spooky_kids_assets";
+
+	char.animation.addByPrefix("hey", "spooky kids YEAH!!", 24, false);
+	char.animation.addByPrefix("singLEFT", "note sing left", 24, false);
+	char.animation.addByPrefix("singRIGHT", "spooky sing right", 24, false);
+	char.animation.addByPrefix("singDOWN", "spooky DOWN note", 24, false);
+	char.animation.addByIndices("danceLeft", "spooky dance idle", [0,2,6], "", 12, false);
+	char.animation.addByIndices("danceRight", "spooky dance idle", [8,10,12,14], "", 12, false);
+	char.animation.addByPrefix("singUP", "spooky UP NOTE", 24, false);
+
+	char.addOffset("hey", 59, -20);
+	char.addOffset("singLEFT", 130, -10);
+	char.addOffset("singRIGHT", -130, -14);
+	char.addOffset("singDOWN", -50, -130);
+	char.addOffset("danceLeft", 0, 0);
+	char.addOffset("danceRight", 0, 0);
+	char.addOffset("singUP", -20, 26);
+
+	char.scale.set(1, 1);
+	char.updateHitbox();
+
+	char.positionArray = [0,200];
+	char.cameraPosition = [0,0];
+
+	char.healthIcon = "spooky";
+	char.singDuration = 4;
+	char.missDuration = 1.3;
+
+	char.flipX = false;
+
+	char.healthColorArray = [213,126,0];
+
+	char.antialiasing = true;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQk1OSwKCQkJCS0yMAoJCQldLAoJCQkiYW5pbSI6ICJoZXkiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogInNwb29reSBraWRzIFlFQUghISIsCgkJCSJpbmRpY2VzIjogW10KCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkxMzAsCgkJCQktMTAKCQkJXSwKCQkJImFuaW0iOiAic2luZ0xFRlQiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIm5vdGUgc2luZyBsZWZ0IiwKCQkJImluZGljZXMiOiBbXQoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCS0xMzAsCgkJCQktMTQKCQkJXSwKCQkJImFuaW0iOiAic2luZ1JJR0hUIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJzcG9va3kgc2luZyByaWdodCIsCgkJCSJpbmRpY2VzIjogW10KCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQktNTAsCgkJCQktMTMwCgkJCV0sCgkJCSJhbmltIjogInNpbmdET1dOIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJzcG9va3kgRE9XTiBub3RlIiwKCQkJImluZGljZXMiOiBbXQoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTAsCgkJCQkwCgkJCV0sCgkJCSJmcHMiOiAxMiwKCQkJImFuaW0iOiAiZGFuY2VMZWZ0IiwKCQkJImluZGljZXMiOiBbCgkJCQkwLAoJCQkJMiwKCQkJCTYKCQkJXSwKCQkJIm5hbWUiOiAic3Bvb2t5IGRhbmNlIGlkbGUiCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCTAKCQkJXSwKCQkJImZwcyI6IDEyLAoJCQkiYW5pbSI6ICJkYW5jZVJpZ2h0IiwKCQkJImluZGljZXMiOiBbCgkJCQk4LAoJCQkJMTAsCgkJCQkxMiwKCQkJCTE0CgkJCV0sCgkJCSJuYW1lIjogInNwb29reSBkYW5jZSBpZGxlIgoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCS0yMCwKCQkJCTI2CgkJCV0sCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1VQIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAic3Bvb2t5IFVQIE5PVEUiCgkJfQoJXQp9";
+}
+
+function returnIcon()
+{
+	return "c3Bvb2t5";
+}

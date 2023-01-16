@@ -1,0 +1,52 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/monsterChristmas");
+	char.imageFile = "characters/monsterChristmas";
+
+	char.animation.addByPrefix("idle", "monster idle", 24, false);
+	char.animation.addByPrefix("singUP", "monster up note", 24, false);
+	char.animation.addByPrefix("singLEFT", "Monster left note", 24, false);
+	char.animation.addByPrefix("singRIGHT", "Monster Right note", 24, false);
+	char.animation.addByPrefix("singDOWN", "monster down", 24, false);
+	char.animation.addByIndices("singUP-loop", "monster up note", [21,22,23], "", 24, true);
+	char.animation.addByIndices("singDOWN-loop", "monster down", [27,28,29], "", 24, true);
+	char.animation.addByIndices("singRIGHT-loop", "Monster Right note", [12,13,14], "", 24, true);
+	char.animation.addByIndices("singLEFT-loop", "Monster left note", [17,18,19], "", 24, true);
+	char.animation.addByIndices("idle-loop", "monster idle", [12,13,14], "", 24, true);
+
+	char.addOffset("idle", 1, 0);
+	char.addOffset("singUP", -20, 50);
+	char.addOffset("singLEFT", -30, 0);
+	char.addOffset("singRIGHT", -51, 0);
+	char.addOffset("singDOWN", -40, -94);
+	char.addOffset("singUP-loop", -20, 50);
+	char.addOffset("singDOWN-loop", -40, -94);
+	char.addOffset("singRIGHT-loop", -51, 0);
+	char.addOffset("singLEFT-loop", -30, 0);
+	char.addOffset("idle-loop", 1, 0);
+
+	char.scale.set(1, 1);
+	char.updateHitbox();
+
+	char.positionArray = [0,130];
+	char.cameraPosition = [0,0];
+
+	char.healthIcon = "monster";
+	char.singDuration = 4;
+	char.missDuration = 1.3;
+
+	char.flipX = false;
+
+	char.healthColorArray = [243,255,110];
+
+	char.antialiasing = true;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQkxLAoJCQkJMAoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImlkbGUiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJtb25zdGVyIGlkbGUiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTIwLAoJCQkJNTAKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nVVAiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJtb25zdGVyIHVwIG5vdGUiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTMwLAoJCQkJMAoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdMRUZUIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiTW9uc3RlciBsZWZ0IG5vdGUiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTUxLAoJCQkJMAoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdSSUdIVCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIk1vbnN0ZXIgUmlnaHQgbm90ZSIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktNDAsCgkJCQktOTQKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nRE9XTiIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIm1vbnN0ZXIgZG93biIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktMjAsCgkJCQk1MAoJCQldLAoJCQkibG9vcCI6IHRydWUsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1VQLWxvb3AiLAoJCQkiaW5kaWNlcyI6IFsKCQkJCTIxLAoJCQkJMjIsCgkJCQkyMwoJCQldLAoJCQkibmFtZSI6ICJtb25zdGVyIHVwIG5vdGUiCgkJfSwKCQl7CgkJCSJvZmZzZXRzIjogWwoJCQkJLTQwLAoJCQkJLTk0CgkJCV0sCgkJCSJsb29wIjogdHJ1ZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nRE9XTi1sb29wIiwKCQkJImluZGljZXMiOiBbCgkJCQkyNywKCQkJCTI4LAoJCQkJMjkKCQkJXSwKCQkJIm5hbWUiOiAibW9uc3RlciBkb3duIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS01MSwKCQkJCTAKCQkJXSwKCQkJImxvb3AiOiB0cnVlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdSSUdIVC1sb29wIiwKCQkJImluZGljZXMiOiBbCgkJCQkxMiwKCQkJCTEzLAoJCQkJMTQKCQkJXSwKCQkJIm5hbWUiOiAiTW9uc3RlciBSaWdodCBub3RlIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS0zMCwKCQkJCTAKCQkJXSwKCQkJImxvb3AiOiB0cnVlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdMRUZULWxvb3AiLAoJCQkiaW5kaWNlcyI6IFsKCQkJCTE3LAoJCQkJMTgsCgkJCQkxOQoJCQldLAoJCQkibmFtZSI6ICJNb25zdGVyIGxlZnQgbm90ZSIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQkxLAoJCQkJMAoJCQldLAoJCQkibG9vcCI6IHRydWUsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAiaWRsZS1sb29wIiwKCQkJImluZGljZXMiOiBbCgkJCQkxMiwKCQkJCTEzLAoJCQkJMTQKCQkJXSwKCQkJIm5hbWUiOiAibW9uc3RlciBpZGxlIgoJCX0KCV0KfQ";
+}
+
+function returnIcon()
+{
+	return "bW9uc3Rlcg";
+}

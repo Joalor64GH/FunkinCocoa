@@ -1,16 +1,13 @@
 package editors;
 
-import openfl.geom.ColorTransform;
-import flixel.FlxBasic;
-#if desktop
-import Discord.DiscordClient;
-#end
 import Conductor.BPMChangeEvent;
 import Section.SwagSection;
 import Song.SwagSong;
+import flash.geom.Rectangle;
+import flixel.FlxBasic;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.*;
 import flixel.addons.ui.FlxUI;
@@ -27,19 +24,20 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import haxe.Json;
+import haxe.io.Bytes;
+import lime.media.AudioBuffer;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
-import openfl.utils.Assets;
+import openfl.geom.ColorTransform;
 import openfl.net.FileReference;
-import lime.media.AudioBuffer;
-import haxe.io.Bytes;
-import flash.geom.Rectangle;
-import sys.io.File;
+import openfl.utils.Assets;
 import sys.FileSystem;
-import yaml.Yaml;
-import yaml.Parser;
+import sys.io.File;
 
 using StringTools;
+#if desktop
+import Discord.DiscordClient;
+#end
 
 class ChartingState extends MusicBeatState
 {
@@ -70,10 +68,6 @@ class ChartingState extends MusicBeatState
 		[
 			'Set GF Speed',
 			"Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"
-		],
-		[
-			'Blammed Lights',
-			"Value 1: 0 = Turn off, 1 = Blue, 2 = Green,\n3 = Pink, 4 = Red, 5 = Orange, Anything else = Random."
 		],
 		['Kill Henchmen', "For Mom's songs, don't use this please, i love them :("],
 		[
@@ -112,7 +106,7 @@ class ChartingState extends MusicBeatState
 
 	var needsValue3:Array<String> = [
 		'Change Scroll Speed',
-	];
+	].copy();
 
 	var _file:FileReference;
 
@@ -164,7 +158,7 @@ class ChartingState extends MusicBeatState
 	var gridBG:FlxSprite;
 	var gridMult:Int = 2;
 
-	var storyDifficulty:Int = PlayState.storyDifficulty;
+	static var storyDifficulty:Int = PlayState.storyDifficulty;
 
 	var _song:SwagSong;
 	/*
@@ -244,6 +238,8 @@ class ChartingState extends MusicBeatState
 		rightIcon = new HealthIcon('dad');
 		leftIcon.updateHitbox();
 		rightIcon.updateHitbox();
+		leftIcon.alpha = .3;
+		rightIcon.alpha = .3;
 		eventIcon.scrollFactor.set(1, 1);
 		leftIcon.scrollFactor.set(1, 1);
 		rightIcon.scrollFactor.set(1, 1);
@@ -251,15 +247,15 @@ class ChartingState extends MusicBeatState
 		eventIcon.setGraphicSize(GRID_SIZE, GRID_SIZE);
 		eventIcon.alpha = .5;
 
-		leftIcon.setGraphicSize(65, 65);
-		rightIcon.setGraphicSize(65, 65);
+		leftIcon.setGraphicSize(85, 85);
+		rightIcon.setGraphicSize(85, 85);
 
 		add(eventIcon);
 		add(leftIcon);
 		add(rightIcon);
 
-		leftIcon.setPosition(GRID_SIZE + 10, -100);
-		rightIcon.setPosition(GRID_SIZE * 5.2, -100);
+		leftIcon.setPosition(GRID_SIZE * 4 - 20, -100);
+		rightIcon.setPosition(GRID_SIZE * 7.5, -100);
 
 		curRenderedSustains = new FlxTypedGroup<FlxSprite>();
 		curRenderedNotes = new FlxTypedGroup<Note>();
@@ -514,9 +510,9 @@ class ChartingState extends MusicBeatState
 				for (file in FileSystem.readDirectory(directory))
 				{
 					var path = haxe.io.Path.join([directory, file]);
-					if (!FileSystem.isDirectory(path) && (file.endsWith('.yaml')))
+					if (!FileSystem.isDirectory(path) && (file.endsWith('.cocoa')))
 					{
-						var charToCheck:String = file.substr(0, file.length - 5);
+						var charToCheck:String = file.substr(0, file.length - 6);
 						if (!charToCheck.endsWith('-dead') && !tempMap.exists(charToCheck))
 						{
 							tempMap.set(charToCheck, true);
@@ -1245,15 +1241,15 @@ class ChartingState extends MusicBeatState
 		check_vortex.callback = function()
 		{	
 			strumGroup.visible = check_vortex.checked;
-			FlxG.save.data.chart_vortex = check_vortex.checked;
-			FlxG.save.flush();
+			CocoaSave.save.data.chart_vortex = check_vortex.checked;
+			CocoaSave.save.flush();
 		};
 		check_vortex.callback();
 		
-		if (FlxG.save.data.chart_vortex == null) 
-			FlxG.save.data.chart_vortex = false;
+		if (CocoaSave.save.data.chart_vortex == null) 
+			CocoaSave.save.data.chart_vortex = false;
 
-		check_vortex.checked = FlxG.save.data.chart_vortex;
+		check_vortex.checked = CocoaSave.save.data.chart_vortex;
 
 		playSoundBf = new FlxUICheckBox(check_mute_inst.x, check_mute_vocals.y + 30, null, null, 'Play Sound (Boyfriend notes)', 100);
 		playSoundBf.checked = false;
@@ -2110,7 +2106,7 @@ class ChartingState extends MusicBeatState
 
 		if (!waveformEnabled.checked || audioBuffers[checkForVoices] == null)
 		{
-			//trace('Epic fail on the waveform lol');
+			trace('Epic fail on the waveform lol');
 			return;
 		}
 
@@ -2318,21 +2314,25 @@ class ChartingState extends MusicBeatState
 	**/
 	function loadHealthIconFromCharacterThisIsSuchALongNameAAAAAA(char:String):String
 	{
-		var characterPath:String = 'characters/' + char + '.yaml';
-		var path:String = Paths.mods(characterPath);
-		if (!FileSystem.exists(path))
+		return try 
 		{
-			path = Paths.getPath(characterPath);
-		}
+			var characterPath:String = 'characters/' + char + '.cocoa';
+			var path:String = Paths.mods(characterPath);
+			if (!FileSystem.exists(path))
+			{
+				path = Paths.getPath(characterPath);
+			}
 
-		if (!FileSystem.exists(path))
-		{
-			path = Paths.getPath('characters/' + Character.DEFAULT_CHARACTER +
-				'.yaml'); 
-		}
+			if (!FileSystem.exists(path))
+			{
+				path = Paths.getPath('characters/' + Character.DEFAULT_CHARACTER +
+					'.cocoa'); 
+			}
 
-		var json:Character.CharacterFile = cast Yaml.read(path, Parser.options().useObjects());
-		return json.healthicon;
+			var script:FunkinScript = new FunkinScript(path);
+			return CoolUtil.decode(script.call("returnIcon", []));
+		}
+		catch (e) "face";
 	}
 
 	function getEventName(names:Array<Dynamic>):String
@@ -2645,6 +2645,7 @@ class ChartingState extends MusicBeatState
 			sustainNote.updateHitbox();
 			sustainNote.x = Math.ffloor((daNoteInfo + 1) * GRID_SIZE);
 			sustainNote.x += GRID_SIZE * 2;
+			sustainNote.noteType = note.noteType;
 			sustainNote.y = oldNote.y + GRID_SIZE;
 			sustainNote.flipY = false;
 			sustainNote.scale.y = 1;
@@ -2683,6 +2684,11 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
+		for (i in spr)
+		{
+			i.scale.y *= zoomList[curZoom];
+		}
+		
 		return spr;
 	}
 

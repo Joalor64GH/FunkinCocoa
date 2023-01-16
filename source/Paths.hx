@@ -1,15 +1,16 @@
 package;
 
-import openfl.display.BitmapData;
+import flash.media.Sound;
 import flixel.FlxG;
+import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
+import lime.utils.Assets;
+import openfl.display.BitmapData;
+import openfl.display3D.textures.Texture;
 import openfl.system.System;
 import openfl.utils.Assets as OpenFlAssets;
-import lime.utils.Assets;
-import sys.io.File;
 import sys.FileSystem;
-import flixel.graphics.FlxGraphic;
-import flash.media.Sound;
+import sys.io.File;
 
 using StringTools;
 
@@ -18,7 +19,8 @@ class Paths
 	inline public static var SOUND_EXT = "ogg";
 	inline public static var VIDEO_EXT = "mp4";
 
-	public static var customImagesLoaded:Map<String, FlxGraphic> = new Map();
+	public static var customTexturesLoaded:Map<String, Texture> = new Map();
+	public static var customImagesLoaded:Map<String, Dynamic> = new Map();
 	public static var customSoundsLoaded:Map<String, Sound> = new Map();
 
 	static var garbageAssets:Array<String> = [];
@@ -88,11 +90,20 @@ class Paths
 		{
 			if (!garbageAssets.contains(key))
 			{
-				var obj:FlxGraphic = customImagesLoaded.get(key);
+				var obj:Dynamic = customImagesLoaded.get(key);
 
 				@:privateAccess
 				if (obj != null)
 				{
+					var isTexture:Bool = customTexturesLoaded.exists(key);
+					if (isTexture)
+					{
+						var texture:Texture = customTexturesLoaded.get(key);
+						texture.dispose();
+						texture = null;
+						customTexturesLoaded.remove(key);
+					}
+
 					OpenFlAssets.cache.removeBitmapData(key);
 					FlxG.bitmap._cache.remove(key);
 					obj.destroy();
@@ -264,21 +275,41 @@ class Paths
 		if (!FileSystem.exists(path))
 			path = getPath('images/$key.png');
 
-		if (!customImagesLoaded.exists(key))
+		try 
 		{
-			var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(BitmapData.fromFile(path), false, key, false);
-			newGraphic.persist = true;
-			customImagesLoaded.set(key, newGraphic);
+			if (!customImagesLoaded.exists(key) || customImagesLoaded.get(key) == null)
+			{
+				var bitmap:BitmapData = BitmapData.fromFile(path);
+				var newGraphic:FlxGraphic;
+				if (FunkySettings.GPURender)
+				{
+					var texture = FlxG.stage.context3D.createTexture(bitmap.width, bitmap.height, BGRA, true, 0);
+					texture.uploadFromBitmapData(bitmap);
+					customTexturesLoaded.set(key, texture);
+					bitmap.dispose();
+					bitmap.disposeImage();
+					bitmap = null;
+					newGraphic = FlxGraphic.fromBitmapData(BitmapData.fromTexture(texture), false, key, false);
+					newGraphic.persist = true;
+				}
+				else
+				{
+					newGraphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
+					newGraphic.persist = true;
+				}
+				customImagesLoaded.set(key, newGraphic);
 
-			if (!garbageAssets.contains(path))
-				garbageAssets.push(path);
+				if (!garbageAssets.contains(path))
+					garbageAssets.push(path);
+			}
+
+			var graphic:FlxGraphic = customImagesLoaded.get(key);
+			if (graphic != null)
+				return graphic;
 		}
-
-		var graphic:FlxGraphic = customImagesLoaded.get(key);
-		if (graphic != null)
-			return graphic;
-
-		trace('$key was not found and returned null!');
+		catch (e) {}
+		
+		trace('$path was not found and returned null!');
 		return null;
 	}
 

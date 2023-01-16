@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 class CoolCheckbox extends FlxSprite
 {
 	public var tracker:FlxSprite;
-	public var daValue(default, set):Bool;
+	public var checked(default, set):Bool;
 	public var copyAlpha:Bool = true;
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
@@ -24,7 +24,8 @@ class CoolCheckbox extends FlxSprite
 		setGraphicSize(Std.int(0.9 * width));
 		updateHitbox();
 
-		playAnim(checked ? 'checking' : 'unchecking');
+		this.checked = checked;
+		playAnim(checked ? "checked" : "unchecked");
 		animation.finishCallback = animationFinished;
 	}
 
@@ -52,23 +53,26 @@ class CoolCheckbox extends FlxSprite
 			offset.set();
 	}
 
-	function set_daValue(check:Bool):Bool
+	function set_checked(check:Bool):Bool
 	{
-		if (check)
+		if (animation.curAnim != null)
 		{
-			if (animation.curAnim.name != 'checked' && animation.curAnim.name != 'checking')
+			if (check)
 			{
-				animation.play('checking', true);
-				offset.set(34, 25);
+				if (animation.curAnim.name != 'checked' && animation.curAnim.name != 'checking')
+				{
+					animation.play('checking', true);
+					offset.set(34, 25);
+				}
+			}
+			else if (animation.curAnim.name != 'unchecked' && animation.curAnim.name != 'unchecking')
+			{
+				animation.play("unchecking", true);
+				offset.set(25, 28);
 			}
 		}
-		else if (animation.curAnim.name != 'unchecked' && animation.curAnim.name != 'unchecking')
-		{
-			animation.play("unchecking", true);
-			offset.set(25, 28);
-		}
 
-		return daValue = check;
+		return checked = check;
 	}
 
 	function animationFinished(name:String)

@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.util.FlxTimer;
 
 using StringTools;
 
@@ -8,11 +9,14 @@ class BabyArrow extends FlxSprite
 {
 	var colorSwap:ColorSwap;
 
-	public var holdTimer:Float = 0;
+	public var hold:Bool;
 	public var player:Int;
 	public var updateAlpha:Bool = true;
 
 	var noteData:Int = 0;
+
+	var timer:FlxTimer;
+	public var holdTimer:Float;
 
 	public function new(x:Float, y:Float, leData:Int, player:Int)
 	{
@@ -112,25 +116,21 @@ class BabyArrow extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
-		if (holdTimer > 0)
+		if (hold)
 		{
-			holdTimer -= elapsed;
-
-			if (holdTimer <= 0)
+			if (animation.curAnim.name == 'confirm' && animation.curAnim.finished && holdTimer > 0)
 			{
-				playAnim('static');
-				holdTimer = 0;
+				holdTimer -= elapsed * 1.07;
+
+				if (holdTimer <= 0)
+				{
+					playAnim('static');
+					hold = false;
+					holdTimer = 0;
+				}
 			}
 		}
-
-		if (updateAlpha)
-		{
-			if (animation.curAnim.name == 'confirm')
-				alpha = 1;
-			else 
-				alpha = FunkySettings.strumOpacity;
-		}
-
+		
 		if (animation.curAnim.name == 'confirm' && !PlayState.isPixelStage)
 			centerOrigin();
 

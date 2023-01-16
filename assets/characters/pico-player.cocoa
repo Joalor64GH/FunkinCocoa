@@ -1,0 +1,50 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/Pico_FNF_assetss");
+	char.imageFile = "characters/Pico_FNF_assetss";
+
+	char.animation.addByPrefix("idle", "Pico Idle Dance", 24, false);
+	char.animation.addByPrefix("singUP", "pico Up note0", 24, false);
+	char.animation.addByPrefix("singDOWN", "Pico Down Note0", 24, false);
+	char.animation.addByPrefix("singDOWNmiss", "Pico Down Note MISS", 24, false);
+	char.animation.addByPrefix("singUPmiss", "pico Up note miss", 24, false);
+	char.animation.addByPrefix("singRIGHT", "Pico Note Right0", 24, false);
+	char.animation.addByPrefix("singLEFT", "Pico NOTE LEFT0", 24, false);
+	char.animation.addByPrefix("singRIGHTmiss", "Pico Note Right Miss", 24, false);
+	char.animation.addByPrefix("singLEFTmiss", "Pico NOTE LEFT miss", 24, false);
+
+	char.addOffset("idle", 3, 0);
+	char.addOffset("singUP", 21, 27);
+	char.addOffset("singDOWN", 84, -80);
+	char.addOffset("singDOWNmiss", 80, -38);
+	char.addOffset("singUPmiss", 28, 67);
+	char.addOffset("singRIGHT", -48, 2);
+	char.addOffset("singLEFT", 85, -10);
+	char.addOffset("singRIGHTmiss", -45, 50);
+	char.addOffset("singLEFTmiss", 83, 28);
+
+	char.scale.set(1, 1);
+	char.updateHitbox();
+
+	char.positionArray = [0,300];
+	char.cameraPosition = [220,0];
+
+	char.healthIcon = "pico";
+	char.singDuration = 4;
+	char.missDuration = 1.3;
+
+	char.flipX = true;
+
+	char.healthColorArray = [183,216,85];
+
+	char.antialiasing = true;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkzLAoJCQkJMAoJCQldLAoJCQkiYW5pbSI6ICJpZGxlIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJQaWNvIElkbGUgRGFuY2UiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMjEsCgkJCQkyNwoJCQldLAoJCQkiYW5pbSI6ICJzaW5nVVAiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogInBpY28gVXAgbm90ZTAiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJODQsCgkJCQktODAKCQkJXSwKCQkJImFuaW0iOiAic2luZ0RPV04iLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIlBpY28gRG93biBOb3RlMCIsCgkJCSJpbmRpY2VzIjogW10KCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQk4MCwKCQkJCS0zOAoJCQldLAoJCQkiYW5pbSI6ICJzaW5nRE9XTm1pc3MiLAoJCQkiZnBzIjogMjQsCgkJCSJuYW1lIjogIlBpY28gRG93biBOb3RlIE1JU1MiLAoJCQkiaW5kaWNlcyI6IFtdCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMjgsCgkJCQk2NwoJCQldLAoJCQkiYW5pbSI6ICJzaW5nVVBtaXNzIiwKCQkJImZwcyI6IDI0LAoJCQkibmFtZSI6ICJwaWNvIFVwIG5vdGUgbWlzcyIsCgkJCSJpbmRpY2VzIjogW10KCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQktNDgsCgkJCQkyCgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1JJR0hUIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiUGljbyBOb3RlIFJpZ2h0MCIKCQl9LAoJCXsKCQkJIm9mZnNldHMiOiBbCgkJCQk4NSwKCQkJCS0xMAoJCQldLAoJCQkibG9vcCI6IGZhbHNlLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdMRUZUIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiUGljbyBOT1RFIExFRlQwIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCS00NSwKCQkJCTUwCgkJCV0sCgkJCSJsb29wIjogZmFsc2UsCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAic2luZ1JJR0hUbWlzcyIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIlBpY28gTm90ZSBSaWdodCBNaXNzIgoJCX0sCgkJewoJCQkib2Zmc2V0cyI6IFsKCQkJCTgzLAoJCQkJMjgKCQkJXSwKCQkJImxvb3AiOiBmYWxzZSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nTEVGVG1pc3MiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJQaWNvIE5PVEUgTEVGVCBtaXNzIgoJCX0KCV0KfQ";
+}
+
+function returnIcon()
+{
+	return "cGljbw";
+}

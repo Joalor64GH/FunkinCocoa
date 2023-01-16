@@ -1,13 +1,13 @@
 package;
 
+import flash.media.Sound;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
-import flixel.util.FlxTimer;
 import flixel.system.FlxSound;
-import flash.media.Sound;
+import flixel.util.FlxTimer;
 
 using StringTools;
 

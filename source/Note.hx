@@ -1,7 +1,7 @@
 package;
 
-import flixel.FlxSprite;
 import editors.ChartingState;
+import flixel.FlxSprite;
 
 using CocoaTools;
 using StringTools;
@@ -34,13 +34,16 @@ class Note extends FlxSprite
 	public var altAnim:Bool;
 	public var hitByOpponent:Bool;
 	
-	public var colorSwap:ColorSwap;
+	public var colorSwap:ColorSwap = new ColorSwap();
 	public var inEditor:Bool = false;
 
 	var earlyHitMult:Float = 0.5;
 	public var multAlpha:Float = 1;
 
 	public var offsetX:Float;
+
+	public var hitHealth:Float = .019;
+	public var missHealth:Float = .041;
 
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
@@ -64,9 +67,12 @@ class Note extends FlxSprite
 
 	function set_noteType(value:String):String
 	{
-		colorSwap.hue = FunkySettings.arrowHSV[noteData % 4][0] / 360;
-		colorSwap.saturation = FunkySettings.arrowHSV[noteData % 4][1] / 100;
-		colorSwap.brightness = FunkySettings.arrowHSV[noteData % 4][2] / 100;
+		if (noteData > -1)
+		{
+			colorSwap.hue = FunkySettings.arrowHSV[noteData % 4][0] / 360;
+			colorSwap.saturation = FunkySettings.arrowHSV[noteData % 4][1] / 100;
+			colorSwap.brightness = FunkySettings.arrowHSV[noteData % 4][2] / 100;
+		}
 
 		if (noteData > -1 && noteType != value)
 		{
@@ -79,6 +85,7 @@ class Note extends FlxSprite
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 				case 'Must Press Note':
+					missHealth = Math.POSITIVE_INFINITY;
 					reloadNote('MUSTPRESS');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -123,7 +130,6 @@ class Note extends FlxSprite
 		if (noteData > -1)
 		{
 			texture = '';
-			colorSwap = new ColorSwap();
 			shader = colorSwap.shader;
 
 			x += swagWidth * (noteData % 4);
@@ -190,7 +196,9 @@ class Note extends FlxSprite
 						prevNote.animation.play('redhold');
 				}
 
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.05 * PlayState.SONG.speed;
+				if (PlayState.instance != null)
+					prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.05 * PlayState.instance.curSongSpeed;
+
 				if (PlayState.isPixelStage)
 				{
 					prevNote.scale.y *= 1.19;
@@ -310,8 +318,13 @@ class Note extends FlxSprite
 			animation.addByPrefix('bluehold', 'blue hold piece');
 		}
 
-		setGraphicSize(Std.int(width * 0.7));
+		setGraphicSize(Std.int(width * .7));
 		updateHitbox();
+		if (isSustainNote)
+		{
+			scale.set(.75, .75);
+			updateHitbox();
+		}
 	}
 
 	function loadPixelNoteAnims()

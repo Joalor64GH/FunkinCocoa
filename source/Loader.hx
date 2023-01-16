@@ -1,7 +1,5 @@
 package;
 
-import haxe.Constraints;
-
 class Loader
 {
 	public var text(default, null):String;

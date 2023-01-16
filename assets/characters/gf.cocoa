@@ -1,0 +1,54 @@
+function createCharacter(char:Character)
+{
+	char.frames = Paths.getSparrowAtlas("characters/GF_assets");
+	char.imageFile = "characters/GF_assets";
+
+	char.animation.addByPrefix("cheer", "GF Cheer", 24, false);
+	char.animation.addByPrefix("singLEFT", "GF left note", 24, false);
+	char.animation.addByPrefix("singDOWN", "GF Down Note", 24, false);
+	char.animation.addByPrefix("singUP", "GF Up Note", 24, false);
+	char.animation.addByPrefix("singRIGHT", "GF Right Note", 24, false);
+	char.animation.addByIndices("sad", "gf sad", [0,1,2,3,4,5,6,7,8,9,10,11,12], "", 24, false);
+	char.animation.addByIndices("danceLeft", "GF Dancing Beat", [30,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, false);
+	char.animation.addByIndices("danceRight", "GF Dancing Beat", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, false);
+	char.animation.addByIndices("hairBlow", "GF Dancing Beat Hair blowing", [0,1,2,3], "", 24, true);
+	char.animation.addByIndices("hairFall", "GF Dancing Beat Hair Landing", [0,1,2,3,4,5,6,7,8,9,10,11], "", 24, false);
+	char.animation.addByPrefix("scared", "GF FEAR", 24, true);
+
+	char.addOffset("cheer", 3, 0);
+	char.addOffset("singLEFT", 0, -19);
+	char.addOffset("singDOWN", 0, -20);
+	char.addOffset("singUP", 0, 4);
+	char.addOffset("singRIGHT", 0, -20);
+	char.addOffset("sad", -2, -21);
+	char.addOffset("danceLeft", 0, -9);
+	char.addOffset("danceRight", 0, -9);
+	char.addOffset("hairBlow", 45, -8);
+	char.addOffset("hairFall", 0, -9);
+	char.addOffset("scared", -2, -17);
+
+	char.scale.set(1, 1);
+	char.updateHitbox();
+
+	char.positionArray = [0,0];
+	char.cameraPosition = [0,0];
+
+	char.healthIcon = "gf";
+	char.singDuration = 4;
+	char.missDuration = 1.3;
+
+	char.flipX = false;
+
+	char.healthColorArray = [165,0,77];
+
+	char.antialiasing = true;
+	char.noAntialiasing = !char.antialiasing;
+
+	//DO NOT CHANGE THIS
+	return "ewoJImFuaW1zIjogWwoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkzLAoJCQkJMAoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImNoZWVyIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiR0YgQ2hlZXIiCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCS0xOQoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdMRUZUIiwKCQkJImluZGljZXMiOiBbXSwKCQkJIm5hbWUiOiAiR0YgbGVmdCBub3RlIgoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTAsCgkJCQktMjAKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzaW5nRE9XTiIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkdGIERvd24gTm90ZSIKCQl9LAoJCXsKCQkJImxvb3AiOiBmYWxzZSwKCQkJIm9mZnNldHMiOiBbCgkJCQkwLAoJCQkJNAoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdVUCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkdGIFVwIE5vdGUiCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCS0yMAoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogInNpbmdSSUdIVCIsCgkJCSJpbmRpY2VzIjogW10sCgkJCSJuYW1lIjogIkdGIFJpZ2h0IE5vdGUiCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJLTIsCgkJCQktMjEKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzYWQiLAoJCQkiaW5kaWNlcyI6IFsKCQkJCTAsCgkJCQkxLAoJCQkJMiwKCQkJCTMsCgkJCQk0LAoJCQkJNSwKCQkJCTYsCgkJCQk3LAoJCQkJOCwKCQkJCTksCgkJCQkxMCwKCQkJCTExLAoJCQkJMTIKCQkJXSwKCQkJIm5hbWUiOiAiZ2Ygc2FkIgoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTAsCgkJCQktOQoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImRhbmNlTGVmdCIsCgkJCSJpbmRpY2VzIjogWwoJCQkJMzAsCgkJCQkwLAoJCQkJMSwKCQkJCTIsCgkJCQkzLAoJCQkJNCwKCQkJCTUsCgkJCQk2LAoJCQkJNywKCQkJCTgsCgkJCQk5LAoJCQkJMTAsCgkJCQkxMSwKCQkJCTEyLAoJCQkJMTMsCgkJCQkxNAoJCQldLAoJCQkibmFtZSI6ICJHRiBEYW5jaW5nIEJlYXQiCgkJfSwKCQl7CgkJCSJsb29wIjogZmFsc2UsCgkJCSJvZmZzZXRzIjogWwoJCQkJMCwKCQkJCS05CgkJCV0sCgkJCSJmcHMiOiAyNCwKCQkJImFuaW0iOiAiZGFuY2VSaWdodCIsCgkJCSJpbmRpY2VzIjogWwoJCQkJMTUsCgkJCQkxNiwKCQkJCTE3LAoJCQkJMTgsCgkJCQkxOSwKCQkJCTIwLAoJCQkJMjEsCgkJCQkyMiwKCQkJCTIzLAoJCQkJMjQsCgkJCQkyNSwKCQkJCTI2LAoJCQkJMjcsCgkJCQkyOCwKCQkJCTI5CgkJCV0sCgkJCSJuYW1lIjogIkdGIERhbmNpbmcgQmVhdCIKCQl9LAoJCXsKCQkJImxvb3AiOiB0cnVlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTQ1LAoJCQkJLTgKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJoYWlyQmxvdyIsCgkJCSJpbmRpY2VzIjogWwoJCQkJMCwKCQkJCTEsCgkJCQkyLAoJCQkJMwoJCQldLAoJCQkibmFtZSI6ICJHRiBEYW5jaW5nIEJlYXQgSGFpciBibG93aW5nIgoJCX0sCgkJewoJCQkibG9vcCI6IGZhbHNlLAoJCQkib2Zmc2V0cyI6IFsKCQkJCTAsCgkJCQktOQoJCQldLAoJCQkiZnBzIjogMjQsCgkJCSJhbmltIjogImhhaXJGYWxsIiwKCQkJImluZGljZXMiOiBbCgkJCQkwLAoJCQkJMSwKCQkJCTIsCgkJCQkzLAoJCQkJNCwKCQkJCTUsCgkJCQk2LAoJCQkJNywKCQkJCTgsCgkJCQk5LAoJCQkJMTAsCgkJCQkxMQoJCQldLAoJCQkibmFtZSI6ICJHRiBEYW5jaW5nIEJlYXQgSGFpciBMYW5kaW5nIgoJCX0sCgkJewoJCQkibG9vcCI6IHRydWUsCgkJCSJvZmZzZXRzIjogWwoJCQkJLTIsCgkJCQktMTcKCQkJXSwKCQkJImZwcyI6IDI0LAoJCQkiYW5pbSI6ICJzY2FyZWQiLAoJCQkiaW5kaWNlcyI6IFtdLAoJCQkibmFtZSI6ICJHRiBGRUFSIgoJCX0KCV0KfQ";
+}
+
+function returnIcon()
+{
+	return "Z2Y";
+}

@@ -3,8 +3,8 @@ package;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
-import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSave;
 
@@ -335,7 +335,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	function reloadCheckboxes()
 	{
 		for (checkbox in checkboxGroup)
-			checkbox.daValue = optionsArray[checkbox.ID].value == true;
+			checkbox.checked = optionsArray[checkbox.ID].value == true;
 	}
 
 	override function close():Void
@@ -380,7 +380,7 @@ class GameplayOption
 
 	public static function loadGameplayOptions():Bool
 	{
-		var save:FlxSave = FunkySettings.bind('gamechangers');
+		var save:CocoaSave = FunkySettings.bind('gamechangers');
 
 		if (save.data.options == null)
 			return saveGameplayOptions();
@@ -392,9 +392,9 @@ class GameplayOption
 
 	public static function saveGameplayOptions():Bool
 	{
-		var save:FlxSave = FunkySettings.bind('gamechangers');
+		var save:CocoaSave = FunkySettings.bind('gamechangers');
 		save.data.options = options;
-		return save.flush();
+		return save.flush().succeeded;
 	}
 
 	public function setChild(alpha:Alphabet)
