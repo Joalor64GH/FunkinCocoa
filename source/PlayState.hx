@@ -3335,6 +3335,17 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+		for (i in [notes, sustainNotes])
+		{
+			for (l in i)
+			{
+				l.kill();
+				l.destroy();
+				i.remove(l, true);
+			}
+			i.kill();
+		}
+
 		timeBarBG.visible = false;
 		timeTxt.visible = false;
 		canPause = false;
@@ -4019,7 +4030,7 @@ class PlayState extends MusicBeatState
 					{
 						var swagRect = new FlxRect(0, 0, daNote.frameWidth, daNote.frameHeight);
 						swagRect.height = (center - daNote.y) / daNote.scale.y;
-						swagRect.y = (daNote.frameHeight  - swagRect.height) + if (daNote.animation.curAnim.name.endsWith('end')) (Conductor.stepCrochet / 32) else 0;
+						swagRect.y = (daNote.frameHeight  - swagRect.height) + if (daNote.animation.curAnim.name.endsWith('end')) (Conductor.stepCrochet / 26) else 0;
 						
 						daNote.clipRect = swagRect;
 					}
@@ -4029,7 +4040,7 @@ class PlayState extends MusicBeatState
 					if (daNote.y + daNote.offset.y * daNote.scale.y <= center)
 					{
 						var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
-						swagRect.y = (center - daNote.y) / (daNote.scale.y ) + if (daNote.animation.curAnim.name.endsWith('end')) -(Conductor.stepCrochet / 32) else 0;
+						swagRect.y = (center - daNote.y) / (daNote.scale.y ) + if (daNote.animation.curAnim.name.endsWith('end')) -(Conductor.stepCrochet / 26) else 0;
 						swagRect.height -= swagRect.y;
 						
 						daNote.clipRect = swagRect;

@@ -1694,7 +1694,7 @@ class ChartingState extends MusicBeatState
 
 				// if (_song.stage == null) _song.stage = stageDropDown.selectedLabel;
 				StageData.loadDirectory(_song);
-				MusicBeatState.switchState(new PlayState());
+				MusicBeatState.switchState(new PlayState(), true);
 			}
 
 			if (curSelectedNote != null && curSelectedNote[1] > -1)
@@ -1708,6 +1708,8 @@ class ChartingState extends MusicBeatState
 					changeNoteSustain(-Conductor.stepCrochet);
 				}
 			}
+			if (FlxG.keys.justPressed.SHIFT && FlxG.keys.justPressed.BACKSPACE)
+				MusicBeatState.switchState(new MasterEditorMenu(), true);
 
 			if (FlxG.keys.justPressed.Z && curZoom > 0) 
 			{
@@ -2643,8 +2645,7 @@ class ChartingState extends MusicBeatState
 			var sustainNote:Note = new Note(note.strumTime + (stepCrochet * i) + stepCrochet, note.noteData % 4, oldNote, true);
 			sustainNote.setGraphicSize(Std.int(GRID_SIZE / 3), Std.int(GRID_SIZE / 3));
 			sustainNote.updateHitbox();
-			sustainNote.x = Math.ffloor((daNoteInfo + 1) * GRID_SIZE);
-			sustainNote.x += GRID_SIZE * 2;
+			sustainNote.x = note.x;
 			sustainNote.noteType = note.noteType;
 			sustainNote.y = oldNote.y + GRID_SIZE;
 			sustainNote.flipY = false;

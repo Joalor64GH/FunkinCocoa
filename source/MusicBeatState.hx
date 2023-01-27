@@ -65,8 +65,11 @@ class MusicBeatState extends CustomState
 		decStep = lastChange.stepTime + (Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet;
 	}
 
-	public static function switchState(nextState:FlxUIState)
+	public static function switchState(nextState:FlxUIState, ?stopMusic:Bool = false)
 	{
+		if (stopMusic && FlxG.sound.music != null)
+			FlxG.sound.music.stop();
+		
 		// Custom made Trans in
 		var curState:Dynamic = FlxG.state;
 		var leState:MusicBeatState = curState;
@@ -101,7 +104,7 @@ class MusicBeatState extends CustomState
 	{
 		var state:Dynamic = FlxG.state;
 		var actualState:MusicBeatState = state;
-		MusicBeatState.switchState(actualState);
+		MusicBeatState.switchState(actualState, true);
 	}
 
 	public static function getState():MusicBeatState
